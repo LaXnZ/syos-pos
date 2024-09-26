@@ -1,9 +1,3 @@
--- Create the database
-CREATE DATABASE syos_db;
-
--- Connect to the database
-\c syos_db;
-
 -- Create the Customer table
 CREATE TABLE Customer (
     customer_id SERIAL PRIMARY KEY,

@@ -9,21 +9,33 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
+
     private static final Logger logger = LoggerUtility.getLogger(DatabaseConnection.class);
+    private static DatabaseConnection instance;  // Singleton instance
     private Connection connection;
 
-    // Method to establish a connection
-    public Connection connect() {
+    // Private constructor to prevent external instantiation
+    private DatabaseConnection() {
         try {
-            if (connection == null || connection.isClosed()) {
-                connection = DriverManager.getConnection(DatabaseConfig.getUrl(),
-                        DatabaseConfig.getUsername(),
-                        DatabaseConfig.getPassword());
-                LoggerUtility.logSuccess(logger, "Database connection established");
-            }
+            connection = DriverManager.getConnection(DatabaseConfig.getUrl(),
+                    DatabaseConfig.getUsername(),
+                    DatabaseConfig.getPassword());
+            LoggerUtility.logSuccess(logger, "Database connection established");
         } catch (SQLException e) {
             LoggerUtility.logError(logger, "Failed to connect to the database", e);
         }
+    }
+
+    // Method to get the Singleton instance
+    public static DatabaseConnection getInstance() {
+        if (instance == null) {
+            instance = new DatabaseConnection();
+        }
+        return instance;
+    }
+
+    // Method to get the connection object
+    public Connection getConnection() {
         return connection;
     }
 

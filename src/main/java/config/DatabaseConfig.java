@@ -8,7 +8,7 @@ public class DatabaseConfig {
     }
 
     public static String getUsername() {
-        return ConfigLoader.getProperty("db.username");
+        return ConfigLoader.getProperty("db.user");
     }
 
     public static String getPassword() {

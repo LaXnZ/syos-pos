@@ -12,9 +12,9 @@ import java.sql.SQLException;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class DatabaseConnectionTest {
+public class TestDatabaseConnection {
 
-    private static final Logger logger = LoggerUtility.getLogger(DatabaseConnectionTest.class);
+    private static final Logger logger = LoggerUtility.getLogger(TestDatabaseConnection.class);
 
     // Test for a successful connection
     @Test
