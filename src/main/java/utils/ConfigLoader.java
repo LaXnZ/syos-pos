@@ -20,7 +20,7 @@ public class ConfigLoader {
                 // Load properties from the config file
                 properties.load(input);
                 // Log success message once the file is loaded
-                LoggerUtility.logInfo(logger, "config.properties loaded successfully");
+                LoggerUtility.logSuccess(logger, "config.properties loaded successfully");
             }
         } catch (IOException ex) {
             // Log error if there is an issue while loading the file

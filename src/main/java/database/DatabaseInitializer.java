@@ -1,5 +1,6 @@
 package database;
 
+import config.DatabaseConfig;
 import org.slf4j.Logger;
 import utils.LoggerUtility;
 
@@ -7,19 +8,15 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import utils.ConfigLoader;
 
 public class DatabaseInitializer {
-
-    // Database configuration properties
-    private static final String URL = ConfigLoader.getProperty("db.url");
-    private static final String USERNAME = ConfigLoader.getProperty("db.username");
-    private static final String PASSWORD = ConfigLoader.getProperty("db.password");
 
     private static final Logger logger = LoggerUtility.getLogger(DatabaseInitializer.class);
 
     public static void initialize() {
-        try (Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        try (Connection conn = DriverManager.getConnection(DatabaseConfig.getUrl(),
+                DatabaseConfig.getUsername(),
+                DatabaseConfig.getPassword());
              Statement stmt = conn.createStatement()) {
 
             // SQL query to create the Customer table if it does not already exist
@@ -35,7 +32,7 @@ public class DatabaseInitializer {
             stmt.executeUpdate(sql);
 
             // Log successful initialization
-            LoggerUtility.logInfo(logger, "Database initialized successfully.");
+            LoggerUtility.logSuccess(logger, "Database initialized successfully.");
 
         } catch (SQLException e) {
             // Log error if initialization fails
