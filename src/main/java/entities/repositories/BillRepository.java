@@ -1,4 +1,8 @@
 package entities.repositories;
 
-public class BillRepository {
+import entities.models.Bill;
+
+public interface BillRepository {
+    void save(Bill bill);
+    Bill findById(int billId);
 }
