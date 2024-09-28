@@ -1,35 +1,126 @@
 package entities.models;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 public class Bill {
-    private final Customer customer;
-    private final List<Transaction> transactions;
-    private double totalPrice;
-    private double discountAmount;
-    private double taxAmount;
-    private double finalPrice;
-    private double cashTendered;
-    private double changeAmount;
+    private int billId;
+    private LocalDate billDate;
+    private BigDecimal totalPrice;
+    private BigDecimal discountAmount;
+    private BigDecimal taxAmount;
+    private BigDecimal finalPrice;
+    private BigDecimal cashTendered;
+    private BigDecimal changeAmount;
+    private Customer customer;
 
-    public Bill(Customer customer) {
+    // These fields are missing and should be added
+    private String paymentType;          // Add paymentType field
+    private BigDecimal paymentAmount;    // Add paymentAmount field
+
+    // Constructors
+    public Bill() {
+    }
+
+    public Bill(LocalDate billDate, BigDecimal totalPrice, BigDecimal discountAmount, BigDecimal taxAmount,
+                BigDecimal finalPrice, BigDecimal cashTendered, BigDecimal changeAmount, Customer customer) {
+        this.billDate = billDate;
+        this.totalPrice = totalPrice;
+        this.discountAmount = discountAmount;
+        this.taxAmount = taxAmount;
+        this.finalPrice = finalPrice;
+        this.cashTendered = cashTendered;
+        this.changeAmount = changeAmount;
         this.customer = customer;
-        this.transactions = new ArrayList<>();
     }
 
-    public void addTransaction(Item item, int quantity, double totalPrice) {
-        transactions.add(new Transaction(item, quantity, totalPrice));
-        this.totalPrice += totalPrice;
+    // Getters and Setters
+    public int getBillId() {
+        return billId;
     }
 
-    public void removeTransaction(Item item) {
-        transactions.removeIf(transaction -> transaction.getItem().equals(item));
+    public void setBillId(int billId) {
+        this.billId = billId;
     }
 
-    public void calculateFinalPrice() {
-        finalPrice = (totalPrice - discountAmount) + taxAmount;
+    public LocalDate getBillDate() {
+        return billDate;
     }
 
-    // Getters and setters for taxAmount, discountAmount, etc.
+    public void setBillDate(LocalDate billDate) {
+        this.billDate = billDate;
+    }
+
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public BigDecimal getDiscountAmount() {
+        return discountAmount;
+    }
+
+    public void setDiscountAmount(BigDecimal discountAmount) {
+        this.discountAmount = discountAmount;
+    }
+
+    public BigDecimal getTaxAmount() {
+        return taxAmount;
+    }
+
+    public void setTaxAmount(BigDecimal taxAmount) {
+        this.taxAmount = taxAmount;
+    }
+
+    public BigDecimal getFinalPrice() {
+        return finalPrice;
+    }
+
+    public void setFinalPrice(BigDecimal finalPrice) {
+        this.finalPrice = finalPrice;
+    }
+
+    public BigDecimal getCashTendered() {
+        return cashTendered;
+    }
+
+    public void setCashTendered(BigDecimal cashTendered) {
+        this.cashTendered = cashTendered;
+    }
+
+    public BigDecimal getChangeAmount() {
+        return changeAmount;
+    }
+
+    public void setChangeAmount(BigDecimal changeAmount) {
+        this.changeAmount = changeAmount;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    // Add getters and setters for paymentType and paymentAmount
+    public String getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(String paymentType) {
+        this.paymentType = paymentType;
+    }
+
+    public BigDecimal getPaymentAmount() {
+        return paymentAmount;
+    }
+
+    public void setPaymentAmount(BigDecimal paymentAmount) {
+        this.paymentAmount = paymentAmount;
+    }
 }

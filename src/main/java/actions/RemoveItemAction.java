@@ -17,6 +17,6 @@ public class RemoveItemAction implements Action {
 
     @Override
     public void execute() {
-        bill.removeTransaction(item);
+        billingManager.removeItemFromBill(bill, item);  // Now it should work since removeItemFromBill is part of the interface
     }
 }

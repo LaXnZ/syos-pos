@@ -8,7 +8,7 @@ import java.util.Properties;
 
 public class DBConnection {
 
-    private static Connection connection = null;
+    private static Connection connection = null;  // Static to maintain across the application
 
     // Load properties from application.properties
     private static Properties loadProperties() {
@@ -27,7 +27,7 @@ public class DBConnection {
         return properties;
     }
 
-    // Get a connection to the database
+    // Static method to get a connection to the database
     public static Connection getConnection() {
         if (connection == null) {
             Properties properties = loadProperties();
@@ -48,14 +48,15 @@ public class DBConnection {
         return connection;
     }
 
-    // Close the database connection
+    // Static method to close the connection
     public static void closeConnection() {
         if (connection != null) {
             try {
                 connection.close();
-                System.out.println("Database connection closed.");
+                System.out.println("Database connection closed successfully.");
             } catch (SQLException e) {
                 System.out.println("Error closing the database connection: " + e.getMessage());
+                e.printStackTrace();
             }
         }
     }

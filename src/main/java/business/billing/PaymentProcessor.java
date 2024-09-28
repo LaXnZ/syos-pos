@@ -1,10 +1,12 @@
 package business.billing;
 
-import models.Bill;
+import entities.models.Bill;
+
+import java.math.BigDecimal;
 
 public class PaymentProcessor {
 
-    public static void processPayment(String paymentType, double amount, Bill bill) {
+    public static void processPayment(String paymentType, BigDecimal amount, Bill bill) {
         switch (paymentType.toLowerCase()) {
             case "cash":
                 processCashPayment(amount, bill);
@@ -18,8 +20,8 @@ public class PaymentProcessor {
         }
     }
 
-    private static void processCashPayment(double amount, Bill bill) {
-        double change = amount - bill.getFinalPrice();
+    private static void processCashPayment(BigDecimal amount, Bill bill) {
+        BigDecimal change = amount.subtract(bill.getFinalPrice());
         bill.setPaymentType("cash");
         bill.setPaymentAmount(amount);
         System.out.println("Cash payment processed. Change: " + change);

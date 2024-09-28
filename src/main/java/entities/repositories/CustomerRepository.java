@@ -1,4 +1,8 @@
 package entities.repositories;
 
-public class CustomerRepository {
+import entities.models.Customer;
+
+public interface CustomerRepository {
+    void save(Customer customer);
+    Customer findById(int customerId);
 }
