@@ -16,6 +16,13 @@ public class Customer {
     public Customer() {
     }
 
+    @Override
+    public String toString() {
+        return "Customer ID: " + customerId + ", Name: " + name + ", Phone: " + phoneNumber +
+                ", Email: " + email + ", Loyalty Points: " + loyaltyPoints +
+                ", Total Spent: " + totalSpent + ", Last Purchase Date: " + lastPurchaseDate;
+    }
+
     // Full constructor with all attributes
     public Customer(String name, String phoneNumber, String email, int loyaltyPoints, BigDecimal totalSpent,
                     LocalDate lastPurchaseDate) {

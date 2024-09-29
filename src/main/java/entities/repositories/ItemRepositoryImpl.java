@@ -1,13 +1,13 @@
 package entities.repositories;
 
 import entities.models.Item;
-import database.DBConnection;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ItemRepositoryImpl implements ItemRepository {
 
@@ -19,7 +19,6 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Override
     public void save(Item item) {
-        // First check if the item already exists by item_code
         if (findByCode(item.getItemCode()) == null) {
             String sql = "INSERT INTO item (item_code, item_name, item_price) VALUES (?, ?, ?)";
 
@@ -39,30 +38,6 @@ public class ItemRepositoryImpl implements ItemRepository {
         } else {
             System.out.println("Item with code " + item.getItemCode() + " already exists. Skipping insertion.");
         }
-    }
-
-    @Override
-    public Item findById(int itemId) {
-        String sql = "SELECT * FROM item WHERE item_id = ?";
-        Item item = null;
-
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, itemId);
-
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                item = new Item();
-                item.setItemId(resultSet.getInt("item_id"));
-                item.setItemCode(resultSet.getString("item_code"));
-                item.setItemName(resultSet.getString("item_name"));
-                item.setItemPrice(resultSet.getBigDecimal("item_price"));
-            }
-        } catch (SQLException e) {
-            System.out.println("Error finding the item: " + e.getMessage());
-            e.printStackTrace();
-        }
-
-        return item;
     }
 
     @Override
@@ -87,5 +62,60 @@ public class ItemRepositoryImpl implements ItemRepository {
         }
 
         return item;
+    }
+
+    @Override
+    public void update(Item item) {
+        String sql = "UPDATE item SET item_name = ?, item_price = ? WHERE item_code = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, item.getItemName());
+            statement.setBigDecimal(2, item.getItemPrice());
+            statement.setString(3, item.getItemCode());
+            statement.executeUpdate();
+            System.out.println("Item updated successfully!");
+        } catch (SQLException e) {
+            System.out.println("Error updating item: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void delete(String itemCode) {
+        String sql = "DELETE FROM item WHERE item_code = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, itemCode);
+            int rowsDeleted = statement.executeUpdate();
+            if (rowsDeleted > 0) {
+                System.out.println("Item with code " + itemCode + " was deleted successfully.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error deleting item: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<Item> findAll() {
+        List<Item> items = new ArrayList<>();
+        String sql = "SELECT * FROM item";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                Item item = new Item();
+                item.setItemId(resultSet.getInt("item_id"));
+                item.setItemCode(resultSet.getString("item_code"));
+                item.setItemName(resultSet.getString("item_name"));
+                item.setItemPrice(resultSet.getBigDecimal("item_price"));
+                items.add(item);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error retrieving items: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return items;
     }
 }

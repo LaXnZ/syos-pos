@@ -1,0 +1,27 @@
+-- Insert Categories
+INSERT INTO Category (category_name) VALUES ('Fresh Vegetables');
+INSERT INTO Category (category_name) VALUES ('Fresh Fruits');
+INSERT INTO Category (category_name) VALUES ('Canned Foods');
+INSERT INTO Category (category_name) VALUES ('Sauces');
+INSERT INTO Category (category_name) VALUES ('Various Groceries');
+INSERT INTO Category (category_name) VALUES ('Spices & Herbs');
+INSERT INTO Category (category_name) VALUES ('Oils/Vinegars');
+INSERT INTO Category (category_name) VALUES ('Refrigerated Items');
+INSERT INTO Category (category_name) VALUES ('Dairy');
+INSERT INTO Category (category_name) VALUES ('Cheese');
+INSERT INTO Category (category_name) VALUES ('Frozen');
+INSERT INTO Category (category_name) VALUES ('Meat');
+INSERT INTO Category (category_name) VALUES ('Seafood');
+INSERT INTO Category (category_name) VALUES ('Baked Goods');
+INSERT INTO Category (category_name) VALUES ('Baking');
+INSERT INTO Category (category_name) VALUES ('Snacks');
+INSERT INTO Category (category_name) VALUES ('Personal Care');
+INSERT INTO Category (category_name) VALUES ('Medicine');
+INSERT INTO Category (category_name) VALUES ('Kitchen');
+INSERT INTO Category (category_name) VALUES ('Cleaning Products');
+INSERT INTO Category (category_name) VALUES ('Other Stuff');
+INSERT INTO Category (category_name) VALUES ('Pets');
+INSERT INTO Category (category_name) VALUES ('Baby');
+INSERT INTO Category (category_name) VALUES ('Office Supplies');
+INSERT INTO Category (category_name) VALUES ('Alcohol');
+INSERT INTO Category (category_name) VALUES ('Themed Meals');

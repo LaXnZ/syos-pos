@@ -9,13 +9,21 @@ CREATE TABLE Customer (
     last_purchase_date DATE
 );
 
--- Create the Item table
+-- Create the Category table
+CREATE TABLE Category (
+    category_id SERIAL PRIMARY KEY,
+    category_name VARCHAR(255) NOT NULL UNIQUE
+);
+
+-- Update the Item table to include a foreign key reference to the Category table
 CREATE TABLE Item (
     item_id SERIAL PRIMARY KEY,
     item_code VARCHAR(10) UNIQUE NOT NULL,
     item_name VARCHAR(255) NOT NULL,
-    item_price DECIMAL(10, 2) NOT NULL
+    item_price DECIMAL(10, 2) NOT NULL,
+    category_id INT REFERENCES Category(category_id)  -- Foreign key to Category
 );
+
 
 -- Create the Bill table
 CREATE TABLE Bill (

@@ -1,4 +1,12 @@
 package business.item;
 
-public class ItemManager {
+import entities.models.Item;
+import java.util.List;
+
+public interface ItemManager {
+    void addItem(Item item);
+    Item findByCode(String itemCode);
+    void updateItem(Item item);
+    void removeItem(String itemCode);
+    List<Item> getAllItems();  // New method to get all items
 }
