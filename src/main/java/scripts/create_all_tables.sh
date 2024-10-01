@@ -2,7 +2,7 @@
 
 DB_NAME="syos_db"
 DB_USER="postgres"
-SQL_FILE="/Users/sumuditha/Desktop/APIIT/SYOS_POS/src/main/resources/dbSetup.sql"
+SQL_FILE="/Users/sumuditha/Desktop/APIIT/SYOS_POS/src/main/resources/create_all_tables.sql"
 
 echo "Running database setup script..."
 psql -h localhost -p 5432 -U $DB_USER -d $DB_NAME -f $SQL_FILE
