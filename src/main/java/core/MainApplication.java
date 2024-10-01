@@ -8,7 +8,11 @@ import business.item.ItemManager;
 import business.item.ItemManagerImpl;
 import business.reporting.ReportingManager;
 import business.reporting.ReportingManagerImpl;
+import entities.repositories.ReportingRepositoryImpl;
 import entities.repositories.CustomerRepositoryImpl;
+import business.stock.StockManager;
+import entities.repositories.StockRepositoryImpl;
+import business.stock.StockManagerImpl;
 import entities.repositories.ItemRepositoryImpl;
 import database.DBConnection;
 
@@ -28,12 +32,17 @@ public class MainApplication {
             // Initialize Repositories
             CustomerRepositoryImpl customerRepository = new CustomerRepositoryImpl(connection);
             ItemRepositoryImpl itemRepository = new ItemRepositoryImpl(connection);
+            StockRepositoryImpl stockRepository = new StockRepositoryImpl(connection); // Stock Repository
+            ReportingRepositoryImpl reportingRepository = new ReportingRepositoryImpl(connection);
+
 
             // Initialize Managers (pass the correct repositories)
             BillingManager billingManager = new BillingManagerImpl(connection);
             CustomerManager customerManager = new CustomerManagerImpl(customerRepository);  // Fix here
             ItemManager itemManager = new ItemManagerImpl(itemRepository);  // Fix here
-            ReportingManager reportingManager = new ReportingManagerImpl(connection);
+            ReportingManager reportingManager = new ReportingManagerImpl(reportingRepository);
+            StockManager stockManager = new StockManagerImpl(stockRepository); // Stock Manager
+
 
             // Main Menu
             boolean running = true;
@@ -53,8 +62,7 @@ public class MainApplication {
 
                 switch (option) {
                     case 1:
-                        // Call the separate Billing Management CLI
-                        BillingManagementCLI.handleBilling(billingManager, itemManager, scanner);
+                        BillingManagementCLI.handleBilling(billingManager, customerManager, itemManager, scanner);
                         break;
                     case 2:
                         CustomerManagementCLI.handleCustomerManagement(customerManager, scanner);
@@ -63,18 +71,17 @@ public class MainApplication {
                         ItemManagementCLI.handleItemManagement(itemManager, scanner);
                         break;
                     case 4:
-                        handleStockManagement(itemManager, scanner);
+                        StockManagementCLI.handleStockManagement(stockManager, scanner);  // Invoke Stock Management CLI
                         break;
                     case 5:
-                        handleReporting(reportingManager, scanner);
+                        ReportingManagementCLI.handleReporting(reportingManager, scanner);
                         break;
                     case 6:
                         running = false;
                         System.out.println("Exiting SYOS POS System. Goodbye!");
                         break;
                     default:
-                        System.out.println("Invalid option! Please try again.");
-                        break;
+                        System.out.println("Invalid option! Please choose a number between 1 and 6.");
                 }
             }
 

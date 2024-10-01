@@ -94,20 +94,22 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     @Override
     public void update(Customer customer) {
         String sql = "UPDATE customer SET name = ?, phone_number = ?, email = ?, loyalty_points = ?, total_spent = ?, last_purchase_date = ? WHERE customer_id = ?";
-
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, customer.getName());
             statement.setString(2, customer.getPhoneNumber());
             statement.setString(3, customer.getEmail());
             statement.setInt(4, customer.getLoyaltyPoints());
             statement.setBigDecimal(5, customer.getTotalSpent());
-            statement.setDate(6, java.sql.Date.valueOf(customer.getLastPurchaseDate()));
+            statement.setDate(6, java.sql.Date.valueOf(customer.getLastPurchaseDate())); // Update the last purchase date
             statement.setInt(7, customer.getCustomerId());
             statement.executeUpdate();
+            System.out.println("Customer updated successfully!");
         } catch (SQLException e) {
+            System.out.println("Error updating customer: " + e.getMessage());
             e.printStackTrace();
         }
     }
+
 
     @Override
     public void delete(int customerId) {

@@ -8,6 +8,23 @@ import java.util.Scanner;
 
 public class CustomerManagementCLI {
 
+    public static void addCustomer(CustomerManager customerManager, Scanner scanner) {
+        System.out.println("Enter customer name:");
+        String customerName = scanner.nextLine();
+
+        System.out.println("Enter phone number:");
+        String phoneNumber = scanner.nextLine();
+
+        System.out.println("Enter email:");
+        String email = scanner.nextLine();
+
+        // Create new customer and save to the database
+        Customer newCustomer = new Customer(customerName, phoneNumber, email, LocalDate.now());
+        customerManager.addCustomer(newCustomer);
+        System.out.println("Customer added successfully!");
+    }
+
+
     public static void handleCustomerManagement(CustomerManager customerManager, Scanner scanner) {
         boolean running = true;
 
