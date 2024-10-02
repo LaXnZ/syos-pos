@@ -51,7 +51,7 @@ public class ItemManagementCLI {
                     Item foundItem = itemManager.findByCode(searchItemCode);
 
                     if (foundItem != null) {
-                        System.out.println("Item found: " + foundItem);
+                        System.out.println("Item found: " + foundItem); // Will now use toString()
                     } else {
                         System.out.println("Item not found with code: " + searchItemCode);
                     }

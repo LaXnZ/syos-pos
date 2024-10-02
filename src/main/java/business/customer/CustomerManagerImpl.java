@@ -23,13 +23,13 @@ public class CustomerManagerImpl implements CustomerManager {
     }
 
     @Override
-    public Customer findCustomerByName(String customerName) {
-        return customerRepository.findByName(customerName);  // Implement this in CustomerRepository
+    public Customer findCustomerByPhoneNumber(String phoneNumber) {  // Updated this method to find by phone number
+        return customerRepository.findByPhoneNumber(phoneNumber);  // Implement this in CustomerRepository
     }
 
     @Override
     public void updateCustomer(Customer customer) {
-        customerRepository.update(customer);  // Ensure update method exists in repository
+        customerRepository.update(customer);
     }
 
     @Override
@@ -39,6 +39,6 @@ public class CustomerManagerImpl implements CustomerManager {
 
     @Override
     public List<Customer> findAllCustomers() {
-        return customerRepository.findAll();  // Ensure findAll method exists in repository
+        return customerRepository.findAll();
     }
 }

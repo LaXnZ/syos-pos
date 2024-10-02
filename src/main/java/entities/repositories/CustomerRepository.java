@@ -6,7 +6,7 @@ import java.util.List;
 public interface CustomerRepository {
     void save(Customer customer);
     Customer findById(int customerId);
-    Customer findByName(String customerName);  // Add this method
+    Customer findByPhoneNumber(String phoneNumber);  // Updated method to find by phone number
     void update(Customer customer);  // Add update method
     void delete(int customerId);
     List<Customer> findAll();  // Add findAll method

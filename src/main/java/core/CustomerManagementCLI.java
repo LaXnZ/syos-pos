@@ -8,12 +8,21 @@ import java.util.Scanner;
 
 public class CustomerManagementCLI {
 
+    // Method to add a customer with proper validation
     public static void addCustomer(CustomerManager customerManager, Scanner scanner) {
         System.out.println("Enter customer name:");
         String customerName = scanner.nextLine();
 
-        System.out.println("Enter phone number:");
-        String phoneNumber = scanner.nextLine();
+        String phoneNumber;
+        while (true) {
+            System.out.println("Enter phone number (10 digits):");
+            phoneNumber = scanner.nextLine();
+            if (phoneNumber.matches("\\d{10}")) {
+                break;
+            } else {
+                System.out.println("Error: Phone number must be exactly 10 digits. Please try again.");
+            }
+        }
 
         System.out.println("Enter email:");
         String email = scanner.nextLine();
@@ -23,7 +32,6 @@ public class CustomerManagementCLI {
         customerManager.addCustomer(newCustomer);
         System.out.println("Customer added successfully!");
     }
-
 
     public static void handleCustomerManagement(CustomerManager customerManager, Scanner scanner) {
         boolean running = true;
@@ -43,20 +51,7 @@ public class CustomerManagementCLI {
 
             switch (option) {
                 case 1:
-                    // Add Customer
-                    System.out.println("Enter customer name:");
-                    String customerName = scanner.nextLine();
-
-                    System.out.println("Enter phone number:");
-                    String phoneNumber = scanner.nextLine();
-
-                    System.out.println("Enter email:");
-                    String email = scanner.nextLine();
-
-                    // Create new customer and save to the database
-                    Customer newCustomer = new Customer(customerName, phoneNumber, email, LocalDate.now());
-                    customerManager.addCustomer(newCustomer);
-                    System.out.println("Customer added successfully!");
+                    addCustomer(customerManager, scanner);
                     break;
 
                 case 2:
@@ -83,13 +78,20 @@ public class CustomerManagementCLI {
                         System.out.println("Enter new customer name:");
                         String updatedName = scanner.nextLine();
 
-                        System.out.println("Enter new phone number:");
-                        String updatedPhone = scanner.nextLine();
+                        String updatedPhone;
+                        while (true) {
+                            System.out.println("Enter new phone number (10 digits):");
+                            updatedPhone = scanner.nextLine();
+                            if (updatedPhone.matches("\\d{10}")) {
+                                break;
+                            } else {
+                                System.out.println("Error: Phone number must be exactly 10 digits. Please try again.");
+                            }
+                        }
 
                         System.out.println("Enter new email:");
                         String updatedEmail = scanner.nextLine();
 
-                        // Update customer details
                         customerToUpdate.setName(updatedName);
                         customerToUpdate.setPhoneNumber(updatedPhone);
                         customerToUpdate.setEmail(updatedEmail);

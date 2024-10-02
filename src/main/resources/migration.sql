@@ -2,11 +2,12 @@
 CREATE TABLE Customer (
     customer_id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    phone_number VARCHAR(10),
+    phone_number VARCHAR(10) UNIQUE NOT NULL, -- Ensure phone number is unique
     email VARCHAR(255),
     loyalty_points INT DEFAULT 0,
     total_spent DECIMAL(10, 2) DEFAULT 0.0,
     last_purchase_date DATE
+    customer_id INT REFERENCES Customer(customer_id) ON DELETE CASCADE
 );
 
 -- Create the Category table
@@ -34,10 +35,10 @@ CREATE TABLE Bill (
     final_price DECIMAL(10, 2) NOT NULL,
     cash_tendered DECIMAL(10, 2) NOT NULL,
     change_amount DECIMAL(10, 2) NOT NULL,
-    customer_id INT REFERENCES Customer(customer_id)
+    customer_id INT REFERENCES Customer(customer_id) ON DELETE CASCADE
 );
 
--- Create the Transaction table
+-- Create the updated Transaction table
 CREATE TABLE Transaction (
     transaction_id SERIAL PRIMARY KEY,
     bill_id INT REFERENCES Bill(bill_id),
@@ -45,8 +46,9 @@ CREATE TABLE Transaction (
     quantity INT NOT NULL,
     total_price DECIMAL(10, 2) NOT NULL,
     transaction_date DATE DEFAULT CURRENT_DATE,
-    transaction_type VARCHAR(50) NOT NULL
+    transaction_type VARCHAR(50) NOT NULL DEFAULT 'cash', -- Default to 'cash', allow 'card'
 );
+
 
 -- Create the Shelf table for items being shelved
 CREATE TABLE Shelf (
@@ -57,32 +59,10 @@ CREATE TABLE Shelf (
     expiry_date DATE  -- Expiry date for perishable items
 );
 
--- Create the Payment table
-CREATE TABLE Payment (
-    payment_id SERIAL PRIMARY KEY,
-    bill_id INT REFERENCES Bill(bill_id),
-    payment_type VARCHAR(50) NOT NULL,
-    payment_amount DECIMAL(10, 2) NOT NULL
-);
-
--- Create the CashPayment table (extends Payment)
-CREATE TABLE CashPayment (
-    payment_id INT REFERENCES Payment(payment_id),
-    cash_received DECIMAL(10, 2) NOT NULL,
-    cash_change DECIMAL(10, 2) NOT NULL
-);
-
--- Create the CardPayment table (extends Payment)
-CREATE TABLE CardPayment (
-    payment_id INT REFERENCES Payment(payment_id),
-    card_number VARCHAR(20),
-    card_type VARCHAR(20)
-);
-
 -- Create the LoyaltyProgram table
 CREATE TABLE LoyaltyProgram (
     loyalty_id SERIAL PRIMARY KEY,
-    customer_id INT REFERENCES Customer(customer_id),
+    customer_id INT REFERENCES Customer(customer_id) ON DELETE CASCADE,
     points_earned INT NOT NULL,
     points_redeemed INT DEFAULT 0,
     date DATE NOT NULL
@@ -99,6 +79,7 @@ CREATE TABLE CustomerTransactionHistory (
     last_purchase_date DATE,
     data_as_of DATE NOT NULL
 );
+
 
 CREATE TABLE Stock (
     stock_id SERIAL PRIMARY KEY,
@@ -129,15 +110,6 @@ CREATE TABLE OnlineInventory (
     last_updated_date DATE  -- Tracks when this stock was last updated for online sales
 );
 
-
-CREATE TABLE Sales (
-    sales_id SERIAL PRIMARY KEY,
-    bill_id INT REFERENCES bill(bill_id),
-    item_code VARCHAR(10) REFERENCES item(item_code),
-    quantity_sold INT NOT NULL,
-    total_price DECIMAL(10, 2) NOT NULL,
-    sale_date DATE DEFAULT CURRENT_DATE
-);
 
 
 

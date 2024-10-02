@@ -8,17 +8,12 @@ import business.item.ItemManager;
 import business.item.ItemManagerImpl;
 import business.reporting.ReportingManager;
 import business.reporting.ReportingManagerImpl;
-import entities.repositories.ReportingRepositoryImpl;
-import entities.repositories.CustomerRepositoryImpl;
 import business.stock.StockManager;
-import entities.repositories.StockRepositoryImpl;
 import business.stock.StockManagerImpl;
-import entities.repositories.ItemRepositoryImpl;
+import entities.repositories.*;
 import database.DBConnection;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
-import java.time.LocalDate;
 import java.util.Scanner;
 
 public class MainApplication {
@@ -32,17 +27,17 @@ public class MainApplication {
             // Initialize Repositories
             CustomerRepositoryImpl customerRepository = new CustomerRepositoryImpl(connection);
             ItemRepositoryImpl itemRepository = new ItemRepositoryImpl(connection);
-            StockRepositoryImpl stockRepository = new StockRepositoryImpl(connection); // Stock Repository
-            ReportingRepositoryImpl reportingRepository = new ReportingRepositoryImpl(connection);
-
+            TransactionRepositoryImpl transactionRepository = new TransactionRepositoryImpl(connection);
+            BillRepositoryImpl billRepository = new BillRepositoryImpl(connection);
+            StockRepositoryImpl stockRepository = new StockRepositoryImpl(connection);
+            ReportingRepositoryImpl reportingRepository = new ReportingRepositoryImpl(connection); // Updated line
 
             // Initialize Managers (pass the correct repositories)
-            BillingManager billingManager = new BillingManagerImpl(connection);
-            CustomerManager customerManager = new CustomerManagerImpl(customerRepository);  // Fix here
-            ItemManager itemManager = new ItemManagerImpl(itemRepository);  // Fix here
-            ReportingManager reportingManager = new ReportingManagerImpl(reportingRepository);
-            StockManager stockManager = new StockManagerImpl(stockRepository); // Stock Manager
-
+            BillingManager billingManager = new BillingManagerImpl(billRepository, customerRepository, transactionRepository, itemRepository);
+            CustomerManager customerManager = new CustomerManagerImpl(customerRepository);
+            ItemManager itemManager = new ItemManagerImpl(itemRepository);
+            StockManager stockManager = new StockManagerImpl(stockRepository);
+            ReportingManager reportingManager = new ReportingManagerImpl(reportingRepository); // Updated line
 
             // Main Menu
             boolean running = true;
@@ -71,9 +66,10 @@ public class MainApplication {
                         ItemManagementCLI.handleItemManagement(itemManager, scanner);
                         break;
                     case 4:
-                        StockManagementCLI.handleStockManagement(stockManager, scanner);  // Invoke Stock Management CLI
+                        StockManagementCLI.handleStockManagement(stockManager, scanner);
                         break;
                     case 5:
+                        // Use the ReportingManager for reporting tasks
                         ReportingManagementCLI.handleReporting(reportingManager, scanner);
                         break;
                     case 6:
@@ -91,30 +87,5 @@ public class MainApplication {
         } finally {
             dbConnectionManager.closeConnection();
         }
-    }
-
-    // Billing Use Case
-    private static void handleBilling(BillingManager billingManager, ItemManager itemManager, Scanner scanner) {
-        // Billing logic (same as before)
-    }
-
-    // Customer Management Use Case
-    private static void handleCustomerManagement(CustomerManager customerManager, Scanner scanner) {
-        // Customer management logic (same as before)
-    }
-
-    // Item Management Use Case
-    private static void handleItemManagement(ItemManager itemManager, Scanner scanner) {
-        // Item management logic (same as before)
-    }
-
-    // Stock Management Use Case
-    private static void handleStockManagement(ItemManager itemManager, Scanner scanner) {
-        // Stock management logic (same as before)
-    }
-
-    // Reporting Use Case
-    private static void handleReporting(ReportingManager reportingManager, Scanner scanner) {
-        // Reporting logic (same as before)
     }
 }

@@ -12,7 +12,7 @@ public class BillFormatter {
     public static String formatBill(Bill bill, Customer customer, List<Transaction> transactions) {
         StringBuilder billString = new StringBuilder();
 
-        billString.append("==== Final Bill ====\n");
+        billString.append("\n\n==== Final Bill ====\n");
         billString.append("Customer Name: ").append(customer.getName()).append("\n");
         billString.append("Phone: ").append(customer.getPhoneNumber()).append("\n");
         billString.append("Email: ").append(customer.getEmail()).append("\n\n");

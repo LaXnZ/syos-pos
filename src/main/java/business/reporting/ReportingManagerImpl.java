@@ -3,8 +3,7 @@ package business.reporting;
 import entities.models.Stock;
 import entities.repositories.ReportingRepository;
 
-import java.sql.Date;
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 
 public class ReportingManagerImpl implements ReportingManager {
@@ -16,18 +15,20 @@ public class ReportingManagerImpl implements ReportingManager {
     }
 
     @Override
-    public void generateTotalSalesReport() {
-        List<Object[]> salesReport = reportingRepository.getTotalSalesReport();
-        System.out.println("==== Total Sales Report ====");
+    public void generateTotalSalesReport(LocalDate date) {
+        // Use the passed date for the report
+        List<Object[]> salesReport = reportingRepository.getTotalSalesReport(date);
+        System.out.println("==== Total Sales Report for " + date + " ====");
         salesReport.forEach(row -> {
             System.out.println("Item Code: " + row[0] + ", Quantity Sold: " + row[1] + ", Total Price: " + row[2]);
         });
     }
 
     @Override
-    public void generateReshelvingReport() {
-        List<Stock> reshelvingReport = reportingRepository.getReshelvingReport();
-        System.out.println("==== Reshelving Report ====");
+    public void generateReshelvingReport(LocalDate date) {
+        // Use the passed date for the report
+        List<Stock> reshelvingReport = reportingRepository.getReshelvingReport(date);
+        System.out.println("==== Reshelving Report for " + date + " ====");
         reshelvingReport.forEach(stock -> {
             System.out.println("Item Code: " + stock.getItemCode() +
                     ", Quantity in Stock: " + stock.getQuantityInStock() +
@@ -39,9 +40,10 @@ public class ReportingManagerImpl implements ReportingManager {
     }
 
     @Override
-    public void generateReorderLevelReport() {
-        List<Stock> reorderReport = reportingRepository.getReorderLevelReport();
-        System.out.println("==== Reorder Level Report ====");
+    public void generateReorderLevelReport(LocalDate date) {
+        // Use the passed date for the report
+        List<Stock> reorderReport = reportingRepository.getReorderLevelReport(date);
+        System.out.println("==== Reorder Level Report for " + date + " ====");
         reorderReport.forEach(stock -> {
             System.out.println("Item Code: " + stock.getItemCode() +
                     ", Quantity in Stock: " + stock.getQuantityInStock() +
@@ -51,9 +53,10 @@ public class ReportingManagerImpl implements ReportingManager {
     }
 
     @Override
-    public void generateStockReport() {
-        List<Stock> stockReport = reportingRepository.getStockReport();
-        System.out.println("==== Stock Report ====");
+    public void generateStockReport(LocalDate date) {
+        // Use the passed date for the report
+        List<Stock> stockReport = reportingRepository.getStockReport(date);
+        System.out.println("==== Stock Report for " + date + " ====");
         stockReport.forEach(stock -> {
             System.out.println("Item Code: " + stock.getItemCode() +
                     ", Quantity in Stock: " + stock.getQuantityInStock() +
@@ -64,15 +67,14 @@ public class ReportingManagerImpl implements ReportingManager {
     }
 
     @Override
-    public void generateBillReport() {
-        List<Object[]> billReport = reportingRepository.getBillReport();
-        System.out.println("==== Bill Report ====");
+    public void generateBillReport(LocalDate date) {
+        // Use the passed date for the report
+        List<Object[]> billReport = reportingRepository.getBillReport(date);
+        System.out.println("==== Bill Report for " + date + " ====");
         billReport.forEach(row -> {
             System.out.println("Bill ID: " + row[0] +
                     ", Customer ID: " + row[1] +
                     ", Total Price: " + row[2]);
         });
     }
-
-
 }

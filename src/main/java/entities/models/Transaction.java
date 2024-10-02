@@ -44,5 +44,12 @@ public class Transaction {
     public void setTransactionDate(LocalDate transactionDate) { this.transactionDate = transactionDate; }
 
     public String getTransactionType() { return transactionType; }
-    public void setTransactionType(String transactionType) { this.transactionType = transactionType; }
+    public void setTransactionType(String transactionType) {
+        if (transactionType.equalsIgnoreCase("cash") ||
+                transactionType.equalsIgnoreCase("card") ) {
+            this.transactionType = transactionType;
+        } else {
+            throw new IllegalArgumentException("Invalid transaction type. It must be 'cash' or 'card'.");
+        }
+    }
 }

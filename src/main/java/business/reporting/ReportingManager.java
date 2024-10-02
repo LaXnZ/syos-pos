@@ -1,13 +1,11 @@
 package business.reporting;
 
-import entities.models.Stock;
-import java.util.List;
+import java.time.LocalDate;
 
 public interface ReportingManager {
-    void generateTotalSalesReport();
-    void generateReshelvingReport();
-    void generateReorderLevelReport();
-    void generateStockReport();
-    void generateBillReport();
-
+    void generateTotalSalesReport(LocalDate date);
+    void generateReshelvingReport(LocalDate date);
+    void generateReorderLevelReport(LocalDate date);
+    void generateStockReport(LocalDate date);
+    void generateBillReport(LocalDate date);
 }
