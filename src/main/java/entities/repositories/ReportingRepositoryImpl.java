@@ -1,6 +1,7 @@
 package entities.repositories;
 
 import entities.models.Stock;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -36,6 +37,36 @@ public class ReportingRepositoryImpl implements ReportingRepository {
                             resultSet.getString(1),  // Item name
                             resultSet.getInt(2),     // Quantity sold
                             resultSet.getBigDecimal(3) // Total price
+                    };
+                    report.add(row);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return report;
+    }
+
+    @Override
+    public List<Object[]> getMostSoldCategories(LocalDate date) {
+        List<Object[]> report = new ArrayList<>();
+        String sql = """
+            SELECT c.category_name, SUM(t.quantity) 
+            FROM transaction t
+            JOIN item i ON t.item_id = i.item_id
+            JOIN category c ON i.category_id = c.category_id
+            WHERE t.transaction_date = ?
+            GROUP BY c.category_name
+            ORDER BY SUM(t.quantity) DESC
+            """;
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setDate(1, java.sql.Date.valueOf(date));
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Object[] row = {
+                            resultSet.getString(1),  // Category name
+                            resultSet.getInt(2)     // Total sold
                     };
                     report.add(row);
                 }
@@ -117,32 +148,29 @@ public class ReportingRepositoryImpl implements ReportingRepository {
 
     @Override
     public List<Object[]> getBillReport(LocalDate date) {
+        List<Object[]> report = new ArrayList<>();
         String sql = """
-            SELECT b.bill_id, c.customer_id, b.total_price
-            FROM Bill b
-            JOIN Customer c ON b.customer_id = c.customer_id
+            SELECT b.bill_id, b.customer_id, b.final_price
+            FROM bill b
             WHERE b.bill_date = ?
             """;
-
-        List<Object[]> results = new ArrayList<>();
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setDate(1, java.sql.Date.valueOf(date));
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    Object[] row = new Object[3];
-                    row[0] = resultSet.getInt("bill_id");
-                    row[1] = resultSet.getInt("customer_id");
-                    row[2] = resultSet.getBigDecimal("total_price");
-                    results.add(row);
+                    Object[] row = {
+                            resultSet.getInt("bill_id"),
+                            resultSet.getInt("customer_id"),
+                            resultSet.getBigDecimal("final_price")
+                    };
+                    report.add(row);
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Error fetching bill report: " + e.getMessage());
             e.printStackTrace();
         }
-
-        return results;
+        return report;
     }
 
     @Override
@@ -178,4 +206,6 @@ public class ReportingRepositoryImpl implements ReportingRepository {
         }
         return report;
     }
+
+
 }

@@ -3,6 +3,7 @@ package business.reporting;
 import entities.models.Stock;
 import entities.repositories.ReportingRepository;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -16,11 +17,33 @@ public class ReportingManagerImpl implements ReportingManager {
 
     @Override
     public void generateTotalSalesReport(LocalDate date) {
-        // Use the passed date for the report
+        // Generate report for today and compare with yesterday
         List<Object[]> salesReport = reportingRepository.getTotalSalesReport(date);
+        BigDecimal totalSalesToday = salesReport.stream()
+                .map(row -> (BigDecimal) row[2])
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        // Yesterday's report
+        LocalDate yesterday = date.minusDays(1);
+        List<Object[]> salesReportYesterday = reportingRepository.getTotalSalesReport(yesterday);
+        BigDecimal totalSalesYesterday = salesReportYesterday.stream()
+                .map(row -> (BigDecimal) row[2])
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
         System.out.println("==== Total Sales Report for " + date + " ====");
         salesReport.forEach(row -> {
             System.out.println("Item Code: " + row[0] + ", Quantity Sold: " + row[1] + ", Total Price: " + row[2]);
+        });
+
+        System.out.println("\nTotal Sales Today: " + totalSalesToday);
+        System.out.println("Total Sales Yesterday: " + totalSalesYesterday);
+        System.out.println("Sales Difference: " + totalSalesToday.subtract(totalSalesYesterday));
+
+        // Most sold categories
+        List<Object[]> mostSoldCategories = reportingRepository.getMostSoldCategories(date);
+        System.out.println("\n==== Most Sold Categories ====");
+        mostSoldCategories.forEach(row -> {
+            System.out.println("Category: " + row[0] + ", Total Sold: " + row[1]);
         });
     }
 
@@ -68,13 +91,23 @@ public class ReportingManagerImpl implements ReportingManager {
 
     @Override
     public void generateBillReport(LocalDate date) {
-        // Use the passed date for the report
         List<Object[]> billReport = reportingRepository.getBillReport(date);
+        BigDecimal totalRevenue = BigDecimal.ZERO;
+        int totalBills = billReport.size();
+
         System.out.println("==== Bill Report for " + date + " ====");
-        billReport.forEach(row -> {
-            System.out.println("Bill ID: " + row[0] +
-                    ", Customer ID: " + row[1] +
-                    ", Total Price: " + row[2]);
-        });
+        for (Object[] row : billReport) {
+            System.out.println("Bill ID: " + row[0] + ", Customer ID: " + row[1] + ", Total Price: " + row[2]);
+            totalRevenue = totalRevenue.add((BigDecimal) row[2]);
+        }
+
+        System.out.println("\nTotal Bills: " + totalBills);
+        System.out.println("Total Revenue: " + totalRevenue);
+
+        // Average transaction value
+        BigDecimal avgTransactionValue = totalRevenue.divide(BigDecimal.valueOf(totalBills), BigDecimal.ROUND_HALF_UP);
+        System.out.println("Average Transaction Value: " + avgTransactionValue);
     }
+
+
 }

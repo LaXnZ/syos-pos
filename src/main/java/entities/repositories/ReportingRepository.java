@@ -11,4 +11,5 @@ public interface ReportingRepository {
     List<Stock> getReorderLevelReport(LocalDate date);
     List<Stock> getStockReport(LocalDate date);
     List<Object[]> getBillReport(LocalDate date);
+    List<Object[]> getMostSoldCategories(LocalDate date);
 }
