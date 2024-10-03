@@ -13,17 +13,15 @@ public class Bill {
     private BigDecimal cashTendered;
     private BigDecimal changeAmount;
     private Customer customer;
-
-    // These fields are missing and should be added
     private String paymentType;          // Add paymentType field
     private BigDecimal paymentAmount;    // Add paymentAmount field
+    private double discountRate;         // Add discountRate field
 
     // Constructors
     public Bill() {
     }
 
-    public Bill(LocalDate billDate, BigDecimal totalPrice, BigDecimal discountAmount, BigDecimal taxAmount,
-                BigDecimal finalPrice, BigDecimal cashTendered, BigDecimal changeAmount, Customer customer) {
+    public Bill(LocalDate billDate, BigDecimal totalPrice, BigDecimal discountAmount, BigDecimal taxAmount, BigDecimal finalPrice, BigDecimal cashTendered, BigDecimal changeAmount, Customer customer) {
         this.billDate = billDate;
         this.totalPrice = totalPrice;
         this.discountAmount = discountAmount;
@@ -33,6 +31,7 @@ public class Bill {
         this.changeAmount = changeAmount;
         this.customer = customer;
     }
+
 
     // Getters and Setters
     public int getBillId() {
@@ -107,7 +106,6 @@ public class Bill {
         this.customer = customer;
     }
 
-    // Add getters and setters for paymentType and paymentAmount
     public String getPaymentType() {
         return paymentType;
     }
@@ -122,5 +120,13 @@ public class Bill {
 
     public void setPaymentAmount(BigDecimal paymentAmount) {
         this.paymentAmount = paymentAmount;
+    }
+
+    public double getDiscountRate() {
+        return discountRate;  // Getter for discountRate
+    }
+
+    public void setDiscountRate(double discountRate) {
+        this.discountRate = discountRate;  // Setter for discountRate
     }
 }

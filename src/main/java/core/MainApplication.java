@@ -30,10 +30,14 @@ public class MainApplication {
             TransactionRepositoryImpl transactionRepository = new TransactionRepositoryImpl(connection);
             BillRepositoryImpl billRepository = new BillRepositoryImpl(connection);
             StockRepositoryImpl stockRepository = new StockRepositoryImpl(connection);
-            ReportingRepositoryImpl reportingRepository = new ReportingRepositoryImpl(connection); // Updated line
+            ReportingRepositoryImpl reportingRepository = new ReportingRepositoryImpl(connection);
+            ShelfRepositoryImpl shelfRepository = new ShelfRepositoryImpl(connection); // New repository
+            StoreInventoryRepositoryImpl storeInventoryRepository = new StoreInventoryRepositoryImpl(connection); // New repository
+
 
             // Initialize Managers (pass the correct repositories)
-            BillingManager billingManager = new BillingManagerImpl(billRepository, customerRepository, transactionRepository, itemRepository);
+            BillingManager billingManager = new BillingManagerImpl(billRepository, customerRepository, transactionRepository, itemRepository, shelfRepository,
+                    storeInventoryRepository   );
             CustomerManager customerManager = new CustomerManagerImpl(customerRepository);
             ItemManager itemManager = new ItemManagerImpl(itemRepository);
             StockManager stockManager = new StockManagerImpl(stockRepository);

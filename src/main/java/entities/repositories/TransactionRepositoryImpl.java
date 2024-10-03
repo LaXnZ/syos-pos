@@ -22,15 +22,16 @@ public class TransactionRepositoryImpl implements TransactionRepository {
 
     @Override
     public void save(Transaction transaction) {
-        String sql = "INSERT INTO transaction (bill_id, item_id, quantity, total_price, transaction_date, transaction_type) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO transaction (bill_id, item_id, quantity, total_price, transaction_date, transaction_type) " +
+                "VALUES (?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, transaction.getBill().getBillId());
-            statement.setInt(2, transaction.getItem().getItemId());  // Ensure this is a valid item_id
-            statement.setInt(3, transaction.getQuantity());
-            statement.setBigDecimal(4, transaction.getTotalPrice());
-            statement.setDate(5, java.sql.Date.valueOf(transaction.getTransactionDate()));
-            statement.setString(6, transaction.getTransactionType());
+            statement.setInt(1, transaction.getBill().getBillId()); // Set bill_id
+            statement.setInt(2, transaction.getItem().getItemId()); // Set item_id
+            statement.setInt(3, transaction.getQuantity()); // Set quantity
+            statement.setBigDecimal(4, transaction.getTotalPrice()); // Set total_price
+            statement.setDate(5, java.sql.Date.valueOf(transaction.getTransactionDate())); // Set transaction_date
+            statement.setString(6, transaction.getTransactionType()); // Set transaction_type
 
             int rowsInserted = statement.executeUpdate();
             if (rowsInserted > 0) {
@@ -45,8 +46,8 @@ public class TransactionRepositoryImpl implements TransactionRepository {
 
     @Override
     public List<Transaction> findByBillId(int billId) {
-        List<Transaction> transactions = new ArrayList<>();
         String sql = "SELECT * FROM transaction WHERE bill_id = ?";
+        List<Transaction> transactions = new ArrayList<>();
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, billId);
@@ -60,10 +61,12 @@ public class TransactionRepositoryImpl implements TransactionRepository {
                 transaction.setTransactionDate(resultSet.getDate("transaction_date").toLocalDate());
                 transaction.setTransactionType(resultSet.getString("transaction_type"));
 
+                // Optionally, set the Bill and Item here if you want to fetch those as well
+
                 transactions.add(transaction);
             }
         } catch (SQLException e) {
-            System.out.println("Error retrieving transactions: " + e.getMessage());
+            System.out.println("Error retrieving transactions by Bill ID: " + e.getMessage());
             e.printStackTrace();
         }
 

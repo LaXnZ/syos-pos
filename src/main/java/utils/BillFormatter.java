@@ -13,6 +13,8 @@ public class BillFormatter {
         StringBuilder billString = new StringBuilder();
 
         billString.append("\n\n==== Final Bill ====\n");
+        billString.append("Bill Serial Number: ").append(bill.getBillId()).append("\n");
+        billString.append("Bill Date: ").append(bill.getBillDate()).append("\n");
         billString.append("Customer Name: ").append(customer.getName()).append("\n");
         billString.append("Phone: ").append(customer.getPhoneNumber()).append("\n");
         billString.append("Email: ").append(customer.getEmail()).append("\n\n");

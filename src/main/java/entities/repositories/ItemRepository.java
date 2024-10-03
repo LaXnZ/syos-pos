@@ -19,4 +19,6 @@ public interface ItemRepository {
 
     // Method to retrieve all items
     List<Item> findAll();
+
+    Item findById(int itemId);
 }

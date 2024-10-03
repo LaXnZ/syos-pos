@@ -11,7 +11,7 @@ public class Transaction {
     private BigDecimal totalPrice;
     private LocalDate transactionDate;
     private String transactionType;
-
+    private int billId;
     // Constructors
     public Transaction() {}
 
@@ -21,7 +21,8 @@ public class Transaction {
         this.quantity = quantity;
         this.totalPrice = totalPrice;
         this.transactionDate = transactionDate;
-        this.transactionType = transactionType;
+        this.transactionType = "cash";
+
     }
 
     // Getters and Setters
@@ -43,13 +44,23 @@ public class Transaction {
     public LocalDate getTransactionDate() { return transactionDate; }
     public void setTransactionDate(LocalDate transactionDate) { this.transactionDate = transactionDate; }
 
-    public String getTransactionType() { return transactionType; }
     public void setTransactionType(String transactionType) {
         if (transactionType.equalsIgnoreCase("cash") ||
-                transactionType.equalsIgnoreCase("card") ) {
+                transactionType.equalsIgnoreCase("card")) {
             this.transactionType = transactionType;
         } else {
             throw new IllegalArgumentException("Invalid transaction type. It must be 'cash' or 'card'.");
         }
+    }
+
+    public String getTransactionType() {
+        return transactionType;
+    }
+    public int getBillId() {
+        return billId;
+    }
+
+    public void setBillId(int billId) {
+        this.billId = billId;
     }
 }

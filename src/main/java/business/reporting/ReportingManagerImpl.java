@@ -30,7 +30,7 @@ public class ReportingManagerImpl implements ReportingManager {
                 .map(row -> (BigDecimal) row[2])
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        System.out.println("==== Total Sales Report for " + date + " ====");
+        System.out.println("\n\n==== Total Sales Report for " + date + " ====");
         salesReport.forEach(row -> {
             System.out.println("Item Code: " + row[0] + ", Quantity Sold: " + row[1] + ", Total Price: " + row[2]);
         });
@@ -51,7 +51,7 @@ public class ReportingManagerImpl implements ReportingManager {
     public void generateReshelvingReport(LocalDate date) {
         // Use the passed date for the report
         List<Stock> reshelvingReport = reportingRepository.getReshelvingReport(date);
-        System.out.println("==== Reshelving Report for " + date + " ====");
+        System.out.println("\n\n==== Reshelving Report for " + date + " ====");
         reshelvingReport.forEach(stock -> {
             System.out.println("Item Code: " + stock.getItemCode() +
                     ", Quantity in Stock: " + stock.getQuantityInStock() +
@@ -66,7 +66,7 @@ public class ReportingManagerImpl implements ReportingManager {
     public void generateReorderLevelReport(LocalDate date) {
         // Use the passed date for the report
         List<Stock> reorderReport = reportingRepository.getReorderLevelReport(date);
-        System.out.println("==== Reorder Level Report for " + date + " ====");
+        System.out.println("\n\n==== Reorder Level Report for " + date + " ====");
         reorderReport.forEach(stock -> {
             System.out.println("Item Code: " + stock.getItemCode() +
                     ", Quantity in Stock: " + stock.getQuantityInStock() +
@@ -79,7 +79,7 @@ public class ReportingManagerImpl implements ReportingManager {
     public void generateStockReport(LocalDate date) {
         // Use the passed date for the report
         List<Stock> stockReport = reportingRepository.getStockReport(date);
-        System.out.println("==== Stock Report for " + date + " ====");
+        System.out.println("\n\n==== Stock Report for " + date + " ====");
         stockReport.forEach(stock -> {
             System.out.println("Item Code: " + stock.getItemCode() +
                     ", Quantity in Stock: " + stock.getQuantityInStock() +
@@ -95,7 +95,7 @@ public class ReportingManagerImpl implements ReportingManager {
         BigDecimal totalRevenue = BigDecimal.ZERO;
         int totalBills = billReport.size();
 
-        System.out.println("==== Bill Report for " + date + " ====");
+        System.out.println("\n\n==== Bill Report for " + date + " ====");
         for (Object[] row : billReport) {
             System.out.println("Bill ID: " + row[0] + ", Customer ID: " + row[1] + ", Total Price: " + row[2]);
             totalRevenue = totalRevenue.add((BigDecimal) row[2]);

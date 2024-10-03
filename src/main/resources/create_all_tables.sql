@@ -50,14 +50,6 @@ CREATE TABLE Transaction (
 );
 
 
--- Create the Shelf table for items being shelved
-CREATE TABLE Shelf (
-    shelf_id SERIAL PRIMARY KEY,
-    item_code VARCHAR(10) REFERENCES Item(item_code),
-    quantity INT NOT NULL,
-    moved_date DATE NOT NULL,
-    expiry_date DATE  -- Expiry date for perishable items
-);
 
 -- Create the LoyaltyProgram table
 CREATE TABLE LoyaltyProgram (
@@ -96,11 +88,23 @@ CREATE TABLE Stock (
 );
 
 
--- Updated StoreInventory Table (links to Stock table)
+
+CREATE TABLE Shelf (
+    shelf_id SERIAL PRIMARY KEY,
+    item_code VARCHAR(10) REFERENCES Item(item_code),
+    quantity INT NOT NULL,
+    moved_date DATE NOT NULL,
+    expiry_date DATE,
+    batch_code VARCHAR(50) NOT NULL
+);
+
+-- StoreInventory table
 CREATE TABLE StoreInventory (
-    stock_id INT REFERENCES Stock(stock_id),  -- Links to the Stock table
-    quantity_in_stock INT NOT NULL,  -- How much of this stock is in-store
-    last_reshelved_date DATE  -- Tracks when this stock was last reshelved in-store
+    stock_id SERIAL PRIMARY KEY,
+    item_code VARCHAR(10) REFERENCES Item(item_code),
+    quantity_in_stock INT NOT NULL,
+    date_of_purchase DATE NOT NULL,
+    expiry_date DATE
 );
 
 -- Updated OnlineInventory Table (links to Stock table)

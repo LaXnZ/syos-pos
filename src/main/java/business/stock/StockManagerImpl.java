@@ -3,7 +3,9 @@ package business.stock;
 import entities.models.Stock;
 import entities.repositories.StockRepository;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class StockManagerImpl implements StockManager {
 
@@ -25,7 +27,7 @@ public class StockManagerImpl implements StockManager {
 
     @Override
     public List<Stock> findAll() {
-        return stockRepository.findAll();  // Make sure to implement findAll in the repository
+        return stockRepository.findAll();
     }
 
     @Override
@@ -35,22 +37,15 @@ public class StockManagerImpl implements StockManager {
 
     @Override
     public void removeStock(String batchCode) {
-        stockRepository.delete(batchCode);  // Pass the batch code to delete
+        stockRepository.delete(batchCode);
     }
 
     @Override
     public List<Stock> reshelveStock() {
-        List<Stock> allStock = stockRepository.findAll();
-
-        // Sort stock based on FIFO and expiry date
-        allStock.sort((s1, s2) -> {
-            if (s1.getExpiryDate() != null && s2.getExpiryDate() != null) {
-                return s1.getExpiryDate().compareTo(s2.getExpiryDate());
-            } else {
-                return s1.getDateOfPurchase().compareTo(s2.getDateOfPurchase());
-            }
-        });
-
-        return allStock;
+        // Find all stock and reshelve items that are near expiration or running low
+        List<Stock> allStocks = stockRepository.findAll();
+        return allStocks.stream()
+                .filter(stock -> stock.getExpiryDate().isBefore(LocalDate.now().plusDays(7)) || stock.getReshelfQuantity() < stock.getShelfCapacity())
+                .collect(Collectors.toList());
     }
 }

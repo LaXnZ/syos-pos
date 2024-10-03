@@ -94,6 +94,29 @@ public class ItemRepositoryImpl implements ItemRepository {
             e.printStackTrace();
         }
     }
+    @Override
+    public Item findById(int itemId) {
+        String sql = "SELECT * FROM item WHERE item_id = ?";
+        Item item = null;
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, itemId);
+
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                item = new Item();
+                item.setItemId(resultSet.getInt("item_id"));
+                item.setItemCode(resultSet.getString("item_code"));
+                item.setItemName(resultSet.getString("item_name"));
+                item.setItemPrice(resultSet.getBigDecimal("item_price"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error finding item by ID: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return item;
+    }
 
     @Override
     public List<Item> findAll() {
