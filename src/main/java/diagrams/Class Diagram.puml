@@ -1,0 +1,93 @@
+@startuml
+class Bill {
+    +int billId
+    +LocalDate billDate
+    +BigDecimal totalPrice
+    +BigDecimal discountAmount
+    +BigDecimal taxAmount
+    +BigDecimal finalPrice
+    +BigDecimal cashTendered
+    +BigDecimal changeAmount
+    +Customer customer
+    +String paymentType
+    +BigDecimal paymentAmount
+    +double discountRate
+    +setDiscountRate(double discountRate)
+    +getDiscountRate() : double
+}
+
+class Customer {
+    +int customerId
+    +String name
+    +String phoneNumber
+    +String email
+    +int loyaltyPoints
+    +BigDecimal totalSpent
+    +LocalDate lastPurchaseDate
+}
+
+class Item {
+    +int itemId
+    +String itemCode
+    +String itemName
+    +BigDecimal itemPrice
+}
+
+class Transaction {
+    +int transactionId
+    +Bill bill
+    +Item item
+    +int quantity
+    +BigDecimal totalPrice
+    +LocalDate transactionDate
+    +String transactionType
+    +int billId
+}
+
+class Stock {
+    +int stockId
+    +String batchCode
+    +String itemCode
+    +int quantityInStock
+    +int reshelfQuantity
+    +int shelfCapacity
+    +int reorderLevel
+    +LocalDate dateOfPurchase
+    +LocalDate expiryDate
+    +String stockLocation
+}
+
+class Shelf {
+    +int shelfId
+    +String itemCode
+    +int quantity
+    +LocalDate movedDate
+    +LocalDate expiryDate
+    +String batchCode
+}
+
+class StoreInventory {
+    +int stockId
+    +String itemCode
+    +int quantityInStock
+    +LocalDate dateOfPurchase
+    +LocalDate expiryDate
+}
+
+class OnlineInventory {
+    +int stockId
+    +String itemCode
+    +int quantityInStock
+    +LocalDate dateOfPurchase
+    +LocalDate expiryDate
+}
+
+Bill "1" --> "*" Transaction
+Bill "1" --> "1" Customer
+Transaction "1" --> "1" Item
+Item "1" --> "*" Shelf
+Item "1" --> "*" Stock
+Stock "1" --> "*" OnlineInventory
+Stock "1" --> "*" StoreInventory
+
+@enduml

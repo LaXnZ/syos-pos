@@ -1,0 +1,60 @@
+@startuml
+actor "Employee" as Employee
+actor "Customer" as Customer
+actor "Stock Manager" as StockManager
+actor "Admin" as Admin
+
+usecase "Manage Billing" as UC1
+usecase "Manage Customer" as UC2
+usecase "Manage Stock" as UC3
+usecase "Manage Items" as UC4
+
+Employee --> UC1 : "Handles Billing"
+Admin --> UC2 : "Handles Customer"
+StockManager --> UC3 : "Handles Stock Reshelving"
+Admin --> UC4 : "Handles Item Management"
+Employee --> UC2 : "Queries Customers for Billing"
+
+' Relationships for Billing
+usecase "Create Bill" as UC1_1
+usecase "Add Item to Bill" as UC1_2
+usecase "Apply Discount" as UC1_3
+usecase "Finalize Bill" as UC1_4
+
+UC1 --> UC1_1 : <<includes>>
+UC1 --> UC1_2 : <<includes>>
+UC1 --> UC1_3 : <<includes>>
+UC1 --> UC1_4 : <<includes>>
+
+' Relationships for Stock Management
+usecase "Manage Inventory" as UC3_1
+usecase "Reshelve Stock" as UC3_2
+usecase "Track Expiry" as UC3_3
+
+UC3 --> UC3_1 : <<includes>>
+UC3_1 --> UC3_2 : <<includes>>
+UC3_1 --> UC3_3 : <<includes>>
+
+' Relationships for Customer Management
+usecase "Add Customer" as UC2_1
+usecase "Update Customer" as UC2_2
+usecase "Find Customer" as UC2_3
+usecase "View Customer History" as UC2_4
+
+UC2 --> UC2_1 : <<includes>>
+UC2 --> UC2_2 : <<includes>>
+UC2 --> UC2_3 : <<includes>>
+UC2 --> UC2_4 : <<includes>>
+
+' Relationships for Item Management
+usecase "Add Item" as UC4_1
+usecase "Update Item" as UC4_2
+usecase "Find Item" as UC4_3
+usecase "Delete Item" as UC4_4
+
+UC4 --> UC4_1 : <<includes>>
+UC4 --> UC4_2 : <<includes>>
+UC4 --> UC4_3 : <<includes>>
+UC4 --> UC4_4 : <<includes>>
+
+@enduml

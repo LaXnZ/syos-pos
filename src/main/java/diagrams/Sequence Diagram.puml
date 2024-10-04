@@ -1,0 +1,27 @@
+@startuml
+actor Employee
+participant CustomerManager
+participant BillingManager
+participant ItemManager
+participant Transaction
+participant Bill
+
+Employee -> CustomerManager : findCustomerByName()
+CustomerManager --> Employee : return Customer or add new
+Employee -> BillingManager : createBill(Customer)
+BillingManager --> Bill : create new Bill
+
+loop add items
+    Employee -> ItemManager : findByCode(itemCode)
+    ItemManager --> Employee : return Item
+    Employee -> BillingManager : addItemToBill(Bill, Item, quantity)
+    BillingManager -> Transaction : createTransaction()
+end
+
+Employee -> BillingManager : applyDiscount()
+BillingManager --> Bill : update Bill
+Employee -> BillingManager : finalizeBill(cashTendered)
+BillingManager --> Bill : finalize
+Employee -> BillingManager : displayFinalBill()
+
+@enduml
