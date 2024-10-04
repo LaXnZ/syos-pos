@@ -61,7 +61,7 @@ public class BillingManagerImpl implements BillingManager {
             System.out.println("Item added to the bill: " + item.getItemName() + " - Quantity: " + quantity);
 
             // Save the transaction with the proper item reference
-            Transaction transaction = new Transaction(bill, item, quantity, itemPrice, LocalDate.now(), "purchase");
+            Transaction transaction = new Transaction(bill, item, quantity, itemPrice, LocalDate.now(), "cash");
             transactionRepository.save(transaction);
 
             // Save the updated bill

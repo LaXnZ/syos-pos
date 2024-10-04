@@ -48,4 +48,5 @@ public class StockManagerImpl implements StockManager {
                 .filter(stock -> stock.getExpiryDate().isBefore(LocalDate.now().plusDays(7)) || stock.getReshelfQuantity() < stock.getShelfCapacity())
                 .collect(Collectors.toList());
     }
+
 }
