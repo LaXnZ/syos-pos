@@ -2,6 +2,7 @@ package entities.models;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 public class Bill {
     private int billId;
@@ -13,9 +14,12 @@ public class Bill {
     private BigDecimal cashTendered;
     private BigDecimal changeAmount;
     private Customer customer;
-    private String paymentType;          // Add paymentType field
-    private BigDecimal paymentAmount;    // Add paymentAmount field
-    private double discountRate;         // Add discountRate field
+    private String paymentType;
+    private BigDecimal paymentAmount;
+    private double discountRate;
+
+    // This is the missing part, a collection of transactions
+    private List<Transaction> transactions;
 
     // Constructors
     public Bill() {
@@ -31,7 +35,6 @@ public class Bill {
         this.changeAmount = changeAmount;
         this.customer = customer;
     }
-
 
     // Getters and Setters
     public int getBillId() {
@@ -123,10 +126,19 @@ public class Bill {
     }
 
     public double getDiscountRate() {
-        return discountRate;  // Getter for discountRate
+        return discountRate;
     }
 
     public void setDiscountRate(double discountRate) {
-        this.discountRate = discountRate;  // Setter for discountRate
+        this.discountRate = discountRate;
+    }
+
+    // Getter and setter for transactions
+    public List<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
     }
 }

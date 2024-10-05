@@ -18,7 +18,7 @@ import java.util.Scanner;
 
 public class MainApplication {
     public static void main(String[] args) {
-        System.out.println("Starting SYOS POS System...");
+        System.out.println("Welcome to SYOS System");
 
         // Initialize the database connection
         DBConnection dbConnectionManager = new DBConnection();
@@ -31,60 +31,46 @@ public class MainApplication {
             BillRepositoryImpl billRepository = new BillRepositoryImpl(connection);
             StockRepositoryImpl stockRepository = new StockRepositoryImpl(connection);
             ReportingRepositoryImpl reportingRepository = new ReportingRepositoryImpl(connection);
-            ShelfRepositoryImpl shelfRepository = new ShelfRepositoryImpl(connection); // New repository
-            StoreInventoryRepositoryImpl storeInventoryRepository = new StoreInventoryRepositoryImpl(connection); // New repository
+            ShelfRepositoryImpl shelfRepository = new ShelfRepositoryImpl(connection);
+            StoreInventoryRepositoryImpl storeInventoryRepository = new StoreInventoryRepositoryImpl(connection);
 
-
-            // Initialize Managers (pass the correct repositories)
-            BillingManager billingManager = new BillingManagerImpl(billRepository, customerRepository, transactionRepository, itemRepository, shelfRepository,
-                    storeInventoryRepository   );
+            // Initialize Managers
+            BillingManager billingManager = new BillingManagerImpl(billRepository, customerRepository, transactionRepository, itemRepository, shelfRepository, storeInventoryRepository);
             CustomerManager customerManager = new CustomerManagerImpl(customerRepository);
             ItemManager itemManager = new ItemManagerImpl(itemRepository);
             StockManager stockManager = new StockManagerImpl(stockRepository);
-            ReportingManager reportingManager = new ReportingManagerImpl(reportingRepository); // Updated line
+            ReportingManager reportingManager = new ReportingManagerImpl(reportingRepository);
 
-            // Main Menu
             boolean running = true;
             Scanner scanner = new Scanner(System.in);
 
             while (running) {
-                System.out.println("\n==== SYOS POS System ====");
-                System.out.println("1. Billing");
-                System.out.println("2. Customer Management");
-                System.out.println("3. Item Management");
-                System.out.println("4. Stock Management");
-                System.out.println("5. Reporting");
-                System.out.println("6. Exit");
+                System.out.println("\n==== Welcome to SYOS ====");
+                System.out.println("1. In-Store POS System");
+                System.out.println("2. Online Store");
+                System.out.println("3. Exit");
                 System.out.print("Choose an option: ");
                 int option = scanner.nextInt();
-                scanner.nextLine(); // Consume newline
+                scanner.nextLine();  // Consume newline
 
                 switch (option) {
                     case 1:
-                        BillingManagementCLI.handleBilling(billingManager, customerManager, itemManager, scanner);
+                        // Redirect to In-Store POS System
+                        InStorePOSSystem.startInStoreSystem(billingManager, customerManager, itemManager, stockManager, reportingManager, scanner);
                         break;
                     case 2:
-                        CustomerManagementCLI.handleCustomerManagement(customerManager, scanner);
+                        // Redirect to Online Store
+                        OnlineShoppingCLI.handleOnlineShopping(customerManager, itemManager, billingManager, scanner);
                         break;
                     case 3:
-                        ItemManagementCLI.handleItemManagement(itemManager, scanner);
-                        break;
-                    case 4:
-                        StockManagementCLI.handleStockManagement(stockManager, scanner);
-                        break;
-                    case 5:
-                        // Use the ReportingManager for reporting tasks
-                        ReportingManagementCLI.handleReporting(reportingManager, scanner);
-                        break;
-                    case 6:
                         running = false;
-                        System.out.println("Exiting SYOS POS System. Goodbye!");
+                        System.out.println("Exiting SYOS System. Goodbye!");
                         break;
                     default:
-                        System.out.println("Invalid option! Please choose a number between 1 and 6.");
+                        System.out.println("Invalid option! Please try again.");
+                        break;
                 }
             }
-
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
             e.printStackTrace();

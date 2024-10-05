@@ -10,4 +10,5 @@ public interface CustomerManager {
     void updateCustomer(Customer customer);
     void removeCustomer(int customerId);
     List<Customer> findAllCustomers();
+    Customer findCustomerByEmail(String email);
 }

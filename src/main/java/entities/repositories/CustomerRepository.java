@@ -9,5 +9,6 @@ public interface CustomerRepository {
     Customer findByPhoneNumber(String phoneNumber);  // Updated method to find by phone number
     void update(Customer customer);  // Add update method
     void delete(int customerId);
-    List<Customer> findAll();  // Add findAll method
+    List<Customer> findAll();
+    Customer findByEmail(String email);
 }

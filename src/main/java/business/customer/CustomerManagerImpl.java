@@ -41,4 +41,10 @@ public class CustomerManagerImpl implements CustomerManager {
     public List<Customer> findAllCustomers() {
         return customerRepository.findAll();
     }
+
+    @Override
+    public Customer findCustomerByEmail(String email) {
+        return customerRepository.findByEmail(email);  // Implement this in CustomerRepository
+    }
+
 }
