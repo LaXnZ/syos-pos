@@ -1,93 +1,194 @@
 @startuml
-class Bill {
-    +int billId
-    +LocalDate billDate
-    +BigDecimal totalPrice
-    +BigDecimal discountAmount
-    +BigDecimal taxAmount
-    +BigDecimal finalPrice
-    +BigDecimal cashTendered
-    +BigDecimal changeAmount
-    +Customer customer
-    +String paymentType
-    +BigDecimal paymentAmount
-    +double discountRate
-    +setDiscountRate(double discountRate)
-    +getDiscountRate() : double
-}
 
 class Customer {
-    +int customerId
+    +int customer_id
     +String name
-    +String phoneNumber
+    +String phone_number
     +String email
-    +int loyaltyPoints
-    +BigDecimal totalSpent
-    +LocalDate lastPurchaseDate
+    +int loyalty_points
+    +BigDecimal total_spent
+    +LocalDate last_purchase_date
+
+    +getCustomerId() : int
+    +getName() : String
+    +getPhoneNumber() : String
+    +getEmail() : String
+    +getLoyaltyPoints() : int
+    +getTotalSpent() : BigDecimal
+    +getLastPurchaseDate() : LocalDate
+}
+
+class Category {
+    +int category_id
+    +String category_name
+
+    +getCategoryId() : int
+    +getCategoryName() : String
 }
 
 class Item {
-    +int itemId
-    +String itemCode
-    +String itemName
-    +BigDecimal itemPrice
+    +int item_id
+    +String item_code
+    +String item_name
+    +BigDecimal item_price
+    +int category_id
+
+    +getItemId() : int
+    +getItemCode() : String
+    +getItemName() : String
+    +getItemPrice() : BigDecimal
+}
+
+class Bill {
+    +int bill_id
+    +LocalDate bill_date
+    +BigDecimal total_price
+    +BigDecimal discount_amount
+    +BigDecimal tax_amount
+    +BigDecimal final_price
+    +BigDecimal cash_tendered
+    +BigDecimal change_amount
+    +int customer_id
+
+    +getBillId() : int
+    +getBillDate() : LocalDate
+    +getTotalPrice() : BigDecimal
+    +getDiscountAmount() : BigDecimal
+    +getTaxAmount() : BigDecimal
+    +getFinalPrice() : BigDecimal
+    +getCashTendered() : BigDecimal
+    +getChangeAmount() : BigDecimal
+    +getCustomer() : Customer
+    +getTransactions() : List<Transaction>
+    +addItemToBill(Item, quantity)
+    +applyDiscount()
+    +finalizeBill(cashTendered : BigDecimal)
 }
 
 class Transaction {
-    +int transactionId
-    +Bill bill
-    +Item item
+    +int transaction_id
+    +int bill_id
+    +int item_id
     +int quantity
-    +BigDecimal totalPrice
-    +LocalDate transactionDate
-    +String transactionType
-    +int billId
+    +BigDecimal total_price
+    +LocalDate transaction_date
+    +String transaction_type
+
+    +getTransactionId() : int
+    +getBillId() : int
+    +getItemId() : int
+    +getQuantity() : int
+    +getTotalPrice() : BigDecimal
+    +getTransactionDate() : LocalDate
+    +getTransactionType() : String
+}
+
+class LoyaltyProgram {
+    +int loyalty_id
+    +int customer_id
+    +int points_earned
+    +int points_redeemed
+    +LocalDate date
+
+    +getLoyaltyId() : int
+    +getCustomerId() : int
+    +getPointsEarned() : int
+    +getPointsRedeemed() : int
+    +getDate() : LocalDate
+}
+
+class CustomerTransactionHistory {
+    +int history_id
+    +int customer_id
+    +int total_purchases
+    +BigDecimal total_spent
+    +BigDecimal avg_spent_per_purchase
+    +int purchase_frequency
+    +LocalDate last_purchase_date
+    +LocalDate data_as_of
+
+    +getHistoryId() : int
+    +getCustomerId() : int
+    +getTotalPurchases() : int
+    +getTotalSpent() : BigDecimal
+    +getAvgSpentPerPurchase() : BigDecimal
+    +getPurchaseFrequency() : int
+    +getLastPurchaseDate() : LocalDate
 }
 
 class Stock {
-    +int stockId
-    +String batchCode
-    +String itemCode
-    +int quantityInStock
-    +int reshelfQuantity
-    +int shelfCapacity
-    +int reorderLevel
-    +LocalDate dateOfPurchase
-    +LocalDate expiryDate
-    +String stockLocation
+    +int stock_id
+    +String batch_code
+    +String item_code
+    +int quantity_in_stock
+    +int reshelf_quantity
+    +int shelf_capacity
+    +int reorder_level
+    +LocalDate date_of_purchase
+    +LocalDate expiry_date
+    +String stock_location
+
+    +getStockId() : int
+    +getBatchCode() : String
+    +getItemCode() : String
+    +getQuantityInStock() : int
+    +getReshelfQuantity() : int
+    +getShelfCapacity() : int
+    +getReorderLevel() : int
+    +getDateOfPurchase() : LocalDate
+    +getExpiryDate() : LocalDate
+    +getStockLocation() : String
 }
 
 class Shelf {
-    +int shelfId
-    +String itemCode
+    +int shelf_id
+    +String item_code
     +int quantity
-    +LocalDate movedDate
-    +LocalDate expiryDate
-    +String batchCode
+    +LocalDate moved_date
+    +LocalDate expiry_date
+    +String batch_code
+
+    +getShelfId() : int
+    +getItemCode() : String
+    +getQuantity() : int
+    +getMovedDate() : LocalDate
+    +getExpiryDate() : LocalDate
+    +getBatchCode() : String
 }
 
 class StoreInventory {
-    +int stockId
-    +String itemCode
-    +int quantityInStock
-    +LocalDate dateOfPurchase
-    +LocalDate expiryDate
+    +int stock_id
+    +String item_code
+    +int quantity_in_stock
+    +LocalDate date_of_purchase
+    +LocalDate expiry_date
+
+    +getStockId() : int
+    +getItemCode() : String
+    +getQuantityInStock() : int
+    +getDateOfPurchase() : LocalDate
+    +getExpiryDate() : LocalDate
 }
 
 class OnlineInventory {
-    +int stockId
-    +String itemCode
-    +int quantityInStock
-    +LocalDate dateOfPurchase
-    +LocalDate expiryDate
+    +int stock_id
+    +int quantity_in_stock
+    +LocalDate last_updated_date
+
+    +getStockId() : int
+    +getQuantityInStock() : int
+    +getLastUpdatedDate() : LocalDate
 }
 
-Bill "1" --> "*" Transaction
-Bill "1" --> "1" Customer
-Transaction "1" --> "1" Item
-Item "1" --> "*" Shelf
-Item "1" --> "*" Stock
-Stock "1" --> "*" OnlineInventory
-Stock "1" --> "*" StoreInventory
+Customer "1" --> "m" Bill : "has"
+Customer "1" --> "1" LoyaltyProgram : "has"
+Customer "1" --> "1" CustomerTransactionHistory : "records"
+Category "1" --> "m" Item : "contains"
+Bill "1" --> "m" Transaction : "contains"
+Item "m" --> "m" Transaction : "involved in"
+Item "1" --> "m" Stock : "available in"
+Stock "1" --> "m" Shelf : "allocated to"
+Stock "1" --> "1" OnlineInventory : "tracks"
+Item "1" --> "m" StoreInventory : "stored in"
 
 @enduml

@@ -27,7 +27,7 @@ public class DBInitializer {
             // Check if tables exist before running the SQL script
             if (!areTablesPresent()) {
                 // Load SQL script from the resources folder
-                String sql = loadSQLFile("dbSetup.sql");
+                String sql = loadSQLFile("create_all_tables.sql");
                 if (sql != null) {
                     statement.execute(sql);
                     System.out.println("Database tables initialized successfully.");

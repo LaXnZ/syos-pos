@@ -23,6 +23,9 @@ public class MainApplication {
         // Initialize the database connection
         DBConnection dbConnectionManager = new DBConnection();
 
+        // Initialize the application
+        AppInitializer.initializeApp();
+
         try (Connection connection = dbConnectionManager.getConnection()) {
             // Initialize Repositories
             CustomerRepositoryImpl customerRepository = new CustomerRepositoryImpl(connection);
