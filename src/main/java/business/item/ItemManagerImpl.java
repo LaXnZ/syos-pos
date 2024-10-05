@@ -30,13 +30,13 @@ public class ItemManagerImpl implements ItemManager {
 
     @Override
     public void removeItem(String itemCode) {
-        itemRepository.delete(itemCode);  // Pass itemCode directly
+        itemRepository.delete(itemCode);
     }
 
 
 
     @Override
     public List<Item> getAllItems() {
-        return itemRepository.findAll();  // Assuming your repository has a method to find all items
+        return itemRepository.findAll();
     }
 }

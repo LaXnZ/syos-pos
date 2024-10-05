@@ -32,32 +32,32 @@ public class CheckoutHappyTest {
 
     @Test
     public void testSuccessfulCheckout() {
-        // Set up customer and item details
+        // set up customer and item details
         Customer customer = new Customer("John Doe", "0711234567", "john.doe@example.com", 100, BigDecimal.ZERO, LocalDate.now());
         Bill bill = new Bill();
         bill.setCustomer(customer);
 
         Item item = new Item("RI002", "Eggs", new BigDecimal("50"));
 
-        // Mock behavior for customer and item management
+        // mock behavior for customer and item management
         when(customerManager.findCustomerByEmail("john.doe@example.com")).thenReturn(customer);
         when(billingManager.createBill(customer)).thenReturn(bill);
         when(itemManager.findByCode("RI002")).thenReturn(item);
 
-        // Set total price and final price for the checkout process
+        // set total price
         BigDecimal totalPrice = item.getItemPrice().multiply(BigDecimal.valueOf(2));  // Assume 2 quantity
         bill.setTotalPrice(totalPrice);
         bill.setFinalPrice(totalPrice);
 
-        // Simulate user input for checkout, including loyalty points question and payment method selection
-        String input = "1\njohn.doe@example.com\n1\nRI002\n2\n2\nn\n1\n";  // Login, add item, decline to use loyalty points, select card payment
+        //  simulate user input
+            String input = "1\njohn.doe@example.com\n1\nRI002\n2\n2\nn\n1\n";
         ByteArrayInputStream inputStream = new ByteArrayInputStream(input.getBytes());
         Scanner scanner = new Scanner(inputStream);
 
-        // Call the handleOnlineShopping method
+        // call the method to be tested
         OnlineShoppingCLI.handleOnlineShopping(customerManager, itemManager, billingManager, scanner);
 
-        // Verify that the checkout process was successful
+
         verify(billingManager, times(1)).finalizeBill(bill, totalPrice.doubleValue(), true);
         System.out.println("Test completed: Successful checkout.");
     }

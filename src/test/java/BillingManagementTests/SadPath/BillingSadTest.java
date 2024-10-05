@@ -34,7 +34,7 @@ public class BillingSadTest {
 
         billingManager.addItemToBill(bill, invalidItem, 1);
 
-        assertEquals(BigDecimal.ZERO, bill.getTotalPrice()); // No change in bill total
-        verify(billRepository, times(0)).save(bill); // Save should not be called
+        assertEquals(BigDecimal.ZERO, bill.getTotalPrice());
+        verify(billRepository, times(0)).save(bill);
     }
 }

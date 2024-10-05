@@ -19,7 +19,7 @@ public class AddCustomerHappyTest {
 
         customerManager.addCustomer(customer);
 
-        // Verify if save() was called once
+
         Mockito.verify(mockRepo, Mockito.times(1)).save(customer);
     }
 }

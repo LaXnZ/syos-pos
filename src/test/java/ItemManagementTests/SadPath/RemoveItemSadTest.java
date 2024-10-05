@@ -23,16 +23,16 @@ public class RemoveItemSadTest {
 
     @Test
     public void testRemoveItemFailsForNonExistingCode() {
-        // Given
+
         String itemCode = "IT002";
         LOGGER.info("Attempting to remove non-existent item with code: " + itemCode);
         when(itemRepository.findByCode(itemCode)).thenReturn(null);
 
-        // When
+
         itemManager.removeItem(itemCode);
 
-        // Then
-        verify(itemRepository, never()).delete(itemCode);  // The item should not be deleted
+
+        verify(itemRepository, never()).delete(itemCode);
         LOGGER.info("Verified that no deletion occurred for non-existent item code: " + itemCode);
     }
 }

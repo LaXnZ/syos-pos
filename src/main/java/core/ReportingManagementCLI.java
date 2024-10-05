@@ -19,7 +19,7 @@ public class ReportingManagementCLI {
             System.out.println("6. Back to Main Menu");
             System.out.print("Choose an option: ");
             int option = scanner.nextInt();
-            scanner.nextLine();  // Consume newline
+            scanner.nextLine();
 
             switch (option) {
                 case 1:
@@ -55,6 +55,6 @@ public class ReportingManagementCLI {
     private static LocalDate getDateFromUser(Scanner scanner) {
         System.out.print("Enter the date for the report (YYYY-MM-DD): ");
         String dateInput = scanner.nextLine();
-        return LocalDate.parse(dateInput);  // You can add error handling for parsing
+        return LocalDate.parse(dateInput);
     }
 }

@@ -12,7 +12,8 @@ public class Transaction {
     private LocalDate transactionDate;
     private String transactionType;
     private int billId;
-    // Constructors
+
+
     public Transaction() {}
 
     public Transaction(Bill bill, Item item, int quantity, BigDecimal totalPrice, LocalDate transactionDate, String transactionType) {
@@ -25,7 +26,7 @@ public class Transaction {
 
     }
 
-    // Getters and Setters
+
     public int getTransactionId() { return transactionId; }
     public void setTransactionId(int transactionId) { this.transactionId = transactionId; }
 

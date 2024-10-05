@@ -31,13 +31,13 @@ public class FinalizeBillHappyTest {
     @Test
     public void testFinalizeBillSuccess() {
         Customer customer = new Customer("David Warner", "0711234567", "david.warner@example.com", LocalDate.now());
-        customer.setLoyaltyPoints(500); // Customer already has 500 loyalty points
+        customer.setLoyaltyPoints(500);
         Bill bill = new Bill(LocalDate.now(), BigDecimal.valueOf(1000), BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, customer);
 
-        billingManager.finalizeBill(bill, 1500.0, true); // Using loyalty points
+        billingManager.finalizeBill(bill, 1500.0, true);
 
-        assertEquals(BigDecimal.valueOf(0), customer.getLoyaltyPoints()); // Loyalty points should be 0
-        assertEquals(BigDecimal.valueOf(500), bill.getFinalPrice()); // Total price minus loyalty points
+        assertEquals(BigDecimal.valueOf(0), customer.getLoyaltyPoints());
+        assertEquals(BigDecimal.valueOf(500), bill.getFinalPrice());
         assertEquals(BigDecimal.valueOf(1000), bill.getCashTendered());
         assertEquals(BigDecimal.valueOf(500), bill.getChangeAmount());
 

@@ -61,7 +61,6 @@ public class TransactionRepositoryImpl implements TransactionRepository {
                 transaction.setTransactionDate(resultSet.getDate("transaction_date").toLocalDate());
                 transaction.setTransactionType(resultSet.getString("transaction_type"));
 
-                // Optionally, set the Bill and Item here if you want to fetch those as well
 
                 transactions.add(transaction);
             }

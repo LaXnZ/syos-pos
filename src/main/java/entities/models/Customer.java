@@ -12,7 +12,7 @@ public class Customer {
     private BigDecimal totalSpent;
     private LocalDate lastPurchaseDate;
 
-    // Default constructor
+
     public Customer() {
     }
 
@@ -23,7 +23,7 @@ public class Customer {
                 ", Total Spent: " + totalSpent + ", Last Purchase Date: " + lastPurchaseDate;
     }
 
-    // Full constructor with all attributes
+
     public Customer(String name, String phoneNumber, String email, int loyaltyPoints, BigDecimal totalSpent,
                     LocalDate lastPurchaseDate) {
         this.name = name;
@@ -34,7 +34,6 @@ public class Customer {
         this.lastPurchaseDate = lastPurchaseDate;
     }
 
-    // New constructor with default values for loyaltyPoints and totalSpent
     public Customer(String name, String phoneNumber, String email, LocalDate lastPurchaseDate) {
         this.name = name;
         this.phoneNumber = phoneNumber;
@@ -44,7 +43,7 @@ public class Customer {
         this.lastPurchaseDate = lastPurchaseDate;
     }
 
-    // Getters and Setters
+
     public int getCustomerId() {
         return customerId;
     }

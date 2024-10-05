@@ -25,13 +25,13 @@ public class CustomerRepositoryImpl implements CustomerRepository {
                 throw new IllegalArgumentException("Phone number must be exactly 10 digits.");
             }
 
-            // If customer already exists by phone number, throw an exception
+            // check if customer with the same phone number already exists
             Customer existingCustomer = findByPhoneNumber(customer.getPhoneNumber());
             if (existingCustomer != null) {
                 throw new IllegalArgumentException("Customer with this phone number already exists.");
             }
 
-            // If lastPurchaseDate is null, set it to today's date
+           // if last purchase date is null, set it to current date
             if (customer.getLastPurchaseDate() == null) {
                 customer.setLastPurchaseDate(LocalDate.now());
             }
@@ -58,7 +58,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
                 e.printStackTrace();
             }
         } catch (IllegalArgumentException e) {
-            // Handle the specific validation error
+
             System.out.println("Error: " + e.getMessage());
         }
     }
@@ -137,11 +137,11 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
     @Override
     public void delete(int customerId) {
-        // Step 1: Delete dependent records in the Bill and Transaction tables (if they exist)
+        // delete related bills and transactions first
         deleteRelatedBills(customerId);
         deleteRelatedTransactions(customerId);
 
-        // Step 2: Proceed to delete the customer after dependent records are removed
+        // delete the customer
         String sql = "DELETE FROM customer WHERE customer_id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -154,7 +154,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         }
     }
 
-    // Method to delete all bills related to the customer
+    // delete all bills related to the customer
     private void deleteRelatedBills(int customerId) {
         String sql = "DELETE FROM bill WHERE customer_id = ?";
 
@@ -168,7 +168,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         }
     }
 
-    // Method to delete all transactions related to the customer (via bill)
+    // delete all transactions related to the customer
     private void deleteRelatedTransactions(int customerId) {
         String sql = "DELETE FROM transaction WHERE bill_id IN (SELECT bill_id FROM bill WHERE customer_id = ?)";
 
@@ -202,12 +202,12 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         return customers;
     }
 
-    // Private helper to validate phone number
+    // validate phone number
     private boolean isValidPhoneNumber(String phoneNumber) {
         return phoneNumber != null && phoneNumber.matches("\\d{10}");  // Validates if the phone number has exactly 10 digits
     }
 
-    // Private helper to map result set to Customer object
+    // map the result set to a customer object
     private Customer mapCustomer(ResultSet resultSet) throws SQLException {
         Customer customer = new Customer();
         customer.setCustomerId(resultSet.getInt("customer_id"));

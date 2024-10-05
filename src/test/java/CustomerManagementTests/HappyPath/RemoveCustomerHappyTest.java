@@ -14,7 +14,7 @@ public class RemoveCustomerHappyTest {
 
         customerManager.removeCustomer(1);
 
-        // Verify if delete() was called once
+
         Mockito.verify(mockRepo, Mockito.times(1)).delete(1);
     }
 }

@@ -28,16 +28,16 @@ public class LoginUserSadTest {
 
     @Test
     public void testLoginWithInvalidEmail() {
-        // Mock input
+
         when(scanner.nextLine()).thenReturn("invalid.email@example.com");
 
-        // Mock customer not found
+
         when(customerManager.findCustomerByEmail("invalid.email@example.com")).thenReturn(null);
 
-        // Call method
+
         OnlineShoppingCLI.handleOnlineShopping(customerManager, itemManager, billingManager, scanner);
 
-        // Verify behavior
+
         verify(customerManager).findCustomerByEmail("invalid.email@example.com");
         System.out.println("Customer not found with email invalid.email@example.com.");
     }

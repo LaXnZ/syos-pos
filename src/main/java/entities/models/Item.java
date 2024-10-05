@@ -8,7 +8,7 @@ public class Item {
     private String itemName;
     private BigDecimal itemPrice;
 
-    // Constructors
+
     public Item() {}
 
     public Item(String itemCode, String itemName, BigDecimal itemPrice) {
@@ -17,7 +17,7 @@ public class Item {
         this.itemPrice = itemPrice;
     }
 
-    // Getters and Setters
+
     public int getItemId() {
         return itemId;
     }

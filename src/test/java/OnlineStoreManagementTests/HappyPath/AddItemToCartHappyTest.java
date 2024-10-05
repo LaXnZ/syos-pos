@@ -32,32 +32,31 @@ public class AddItemToCartHappyTest {
 
     @Test
     public void testAddItemToCart() {
-        // Set up customer and item details
+
         Customer customer = new Customer("John Doe", "0711234567", "john.doe@example.com", 0, BigDecimal.ZERO, LocalDate.now());
-        Bill bill = new Bill();  // Assuming Bill has a default constructor
-        bill.setCustomer(customer);  // Set the customer in the bill to avoid NullPointerException
+        Bill bill = new Bill();
+        bill.setCustomer(customer);
 
-        Item item = new Item("RI002", "Eggs", new BigDecimal("50"));  // Use available constructor
+        Item item = new Item("RI002", "Eggs", new BigDecimal("50"));
 
-        // Mock behavior for customer and item management
+        // mock behavior for customer and item management
         when(customerManager.findCustomerByEmail("john.doe@example.com")).thenReturn(customer);
         when(billingManager.createBill(customer)).thenReturn(bill);
         when(itemManager.findByCode("RI002")).thenReturn(item);
 
-        // Manually set the final price in the Bill before calling the checkout process
-        BigDecimal totalPrice = item.getItemPrice().multiply(BigDecimal.valueOf(2));  // Assume 2 quantity
+        // manually set total price
+        BigDecimal totalPrice = item.getItemPrice().multiply(BigDecimal.valueOf(2));
         bill.setTotalPrice(totalPrice);
-        bill.setFinalPrice(totalPrice);  // Set final price to prevent NullPointerException
+        bill.setFinalPrice(totalPrice);
 
-        // Simulate user input for the Scanner (including payment method)
-        String input = "1\njohn.doe@example.com\n1\nRI002\n2\n2\n1\n";  // Login, add item, and checkout
+        // simulate user input
+        String input = "1\njohn.doe@example.com\n1\nRI002\n2\n2\n1\n";
         ByteArrayInputStream inputStream = new ByteArrayInputStream(input.getBytes());
         Scanner scanner = new Scanner(inputStream);
 
-        // Call the handleOnlineShopping method with the real scanner and simulated input
+        // call the method to be tested
         OnlineShoppingCLI.handleOnlineShopping(customerManager, itemManager, billingManager, scanner);
 
-        // No need to mock or verify anything here, just observe outputs
         System.out.println("Test completed. Item added to cart and checkout successful.");
     }
 }

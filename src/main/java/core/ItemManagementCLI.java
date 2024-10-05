@@ -12,22 +12,22 @@ public class ItemManagementCLI {
     public static void handleItemManagement(ItemManager itemManager, Scanner scanner) {
         boolean running = true;
 
-        // Menu-driven approach for Item Management
+
         while (running) {
             System.out.println("\n==== Item Management ====");
             System.out.println("1. Add Item");
             System.out.println("2. Find Item by Code");
             System.out.println("3. Update Item");
             System.out.println("4. Remove Item");
-            System.out.println("5. View All Items");  // New option to view all items
+            System.out.println("5. View All Items");
             System.out.println("6. Back to Main Menu");
             System.out.print("Choose an option: ");
             int option = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+            scanner.nextLine();
 
             switch (option) {
                 case 1:
-                    // Add Item
+                    // add a new item
                     System.out.println("Enter item code:");
                     String itemCode = scanner.nextLine();
 
@@ -38,14 +38,14 @@ public class ItemManagementCLI {
                     BigDecimal itemPrice = scanner.nextBigDecimal();
                     scanner.nextLine();  // Consume newline
 
-                    // Create new item and save to the database
+                    // create the item object and add it to the repository
                     Item newItem = new Item(itemCode, itemName, itemPrice);
                     itemManager.addItem(newItem);
                     System.out.println("Item added successfully!");
                     break;
 
                 case 2:
-                    // Find Item by Code
+                    // find item by code
                     System.out.println("Enter item code:");
                     String searchItemCode = scanner.nextLine();
                     Item foundItem = itemManager.findByCode(searchItemCode);
@@ -58,7 +58,7 @@ public class ItemManagementCLI {
                     break;
 
                 case 3:
-                    // Update Item
+                    // update item
                     System.out.println("Enter item code to update:");
                     String updateItemCode = scanner.nextLine();
 
@@ -80,7 +80,7 @@ public class ItemManagementCLI {
                     break;
 
                 case 4:
-                    // Remove Item
+                    // remove item
                     System.out.println("Enter item code to remove:");
                     String removeItemCode = scanner.nextLine();
                     itemManager.removeItem(removeItemCode);
@@ -88,7 +88,7 @@ public class ItemManagementCLI {
                     break;
 
                 case 5:
-                    // View All Items
+                    // view all items
                     List<Item> allItems = itemManager.getAllItems();
                     if (allItems.isEmpty()) {
                         System.out.println("No items found.");
@@ -101,7 +101,7 @@ public class ItemManagementCLI {
                     break;
 
                 case 6:
-                    // Back to Main Menu
+                    // main menu
                     running = false;
                     break;
 

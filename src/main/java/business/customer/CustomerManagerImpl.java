@@ -23,8 +23,8 @@ public class CustomerManagerImpl implements CustomerManager {
     }
 
     @Override
-    public Customer findCustomerByPhoneNumber(String phoneNumber) {  // Updated this method to find by phone number
-        return customerRepository.findByPhoneNumber(phoneNumber);  // Implement this in CustomerRepository
+    public Customer findCustomerByPhoneNumber(String phoneNumber) {
+        return customerRepository.findByPhoneNumber(phoneNumber);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class CustomerManagerImpl implements CustomerManager {
 
     @Override
     public Customer findCustomerByEmail(String email) {
-        return customerRepository.findByEmail(email);  // Implement this in CustomerRepository
+        return customerRepository.findByEmail(email);
     }
 
 }

@@ -10,7 +10,7 @@ public class DBConnection {
 
     private static Connection connection = null;  // Static to maintain across the application
 
-    // Load properties from application.properties
+    // load the properties file and get the database connection details
     private static Properties loadProperties() {
         Properties properties = new Properties();
         try (InputStream input = DBConnection.class.getClassLoader().getResourceAsStream("application.properties")) {
@@ -18,7 +18,7 @@ public class DBConnection {
                 System.out.println("Sorry, unable to find application.properties");
                 return null;
             }
-            // Load properties file
+
             properties.load(input);
         } catch (Exception e) {
             System.out.println("Error loading application properties: " + e.getMessage());
@@ -27,7 +27,7 @@ public class DBConnection {
         return properties;
     }
 
-    // Static method to get a connection to the database
+    // get the database connection
     public static Connection getConnection() {
         if (connection == null) {
             Properties properties = loadProperties();
@@ -48,7 +48,7 @@ public class DBConnection {
         return connection;
     }
 
-    // Static method to close the connection
+    // close the database connection
     public static void closeConnection() {
         if (connection != null) {
             try {

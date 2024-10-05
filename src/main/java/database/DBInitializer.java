@@ -11,22 +11,22 @@ import java.util.stream.Collectors;
 
 public class DBInitializer {
 
-    private final DBConnection dbConnection;  // Pass the DBConnection manager here
+    private final DBConnection dbConnection;
     private Connection connection;
 
     public DBInitializer(DBConnection dbConnection) {
         this.dbConnection = dbConnection;
     }
 
-    // Executes the SQL script to create the tables in the database if they don't exist
+    // execute the sql script to initialize the database if tables are not exists
     public void initializeDatabase() {
         try {
             connection = dbConnection.getConnection();
             Statement statement = connection.createStatement();
 
-            // Check if tables exist before running the SQL script
+            // check if the tables are already exist in the database
             if (!areTablesPresent()) {
-                // Load SQL script from the resources folder
+
                 String sql = loadSQLFile("create_all_tables.sql");
                 if (sql != null) {
                     statement.execute(sql);
@@ -43,7 +43,7 @@ public class DBInitializer {
         }
     }
 
-    // Check if any tables already exist in the database
+    // check if the tables are already exist in the database
     private boolean areTablesPresent() throws SQLException {
         String checkQuery = "SELECT table_name FROM information_schema.tables WHERE table_schema='public'";
         Statement statement = connection.createStatement();
@@ -51,7 +51,7 @@ public class DBInitializer {
         return resultSet.next();  // If there are any tables, it will return true
     }
 
-    // Load the SQL script from the resources folder
+    // load the SQL file from the resources folder
     private String loadSQLFile(String fileName) {
         try (InputStream input = DBInitializer.class.getClassLoader().getResourceAsStream(fileName);
              BufferedReader reader = new BufferedReader(new InputStreamReader(input))) {

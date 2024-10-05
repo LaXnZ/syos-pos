@@ -19,7 +19,7 @@ public class AddCustomerSadTest {
 
         Customer customer = new Customer("John Doe", "invalidPhone", "john@example.com", LocalDate.now());
 
-        // Simulate exception during save
+
         doThrow(new IllegalArgumentException("Phone number must be 10 digits"))
                 .when(mockRepo).save(Mockito.any(Customer.class));
 
@@ -29,7 +29,7 @@ public class AddCustomerSadTest {
             System.out.println("Caught expected exception: " + e.getMessage());
         }
 
-        // Verify that save() was called despite the exception
+
         Mockito.verify(mockRepo, Mockito.times(1)).save(customer);
     }
 }

@@ -23,7 +23,7 @@ public class RemoveStockSadTest {
     public void testRemoveStockSadPath() {
         String batchCode = "B001";
 
-        // Simulate an exception
+
         doThrow(new RuntimeException("Stock not found")).when(stockRepository).delete(batchCode);
 
         try {

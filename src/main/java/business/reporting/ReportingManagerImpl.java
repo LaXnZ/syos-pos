@@ -17,13 +17,13 @@ public class ReportingManagerImpl implements ReportingManager {
 
     @Override
     public void generateTotalSalesReport(LocalDate date) {
-        // Generate report for today and compare with yesterday
+        // today's report
         List<Object[]> salesReport = reportingRepository.getTotalSalesReport(date);
         BigDecimal totalSalesToday = salesReport.stream()
                 .map(row -> (BigDecimal) row[2])
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        // Yesterday's report
+        // yesterday's report
         LocalDate yesterday = date.minusDays(1);
         List<Object[]> salesReportYesterday = reportingRepository.getTotalSalesReport(yesterday);
         BigDecimal totalSalesYesterday = salesReportYesterday.stream()
@@ -39,7 +39,7 @@ public class ReportingManagerImpl implements ReportingManager {
         System.out.println("Total Sales Yesterday: " + totalSalesYesterday);
         System.out.println("Sales Difference: " + totalSalesToday.subtract(totalSalesYesterday));
 
-        // Most sold categories
+        // most sold categories
         List<Object[]> mostSoldCategories = reportingRepository.getMostSoldCategories(date);
         System.out.println("\n==== Most Sold Categories ====");
         mostSoldCategories.forEach(row -> {
@@ -49,7 +49,7 @@ public class ReportingManagerImpl implements ReportingManager {
 
     @Override
     public void generateReshelvingReport(LocalDate date) {
-        // Use the passed date for the report
+        // using the passed date for the report
         List<Stock> reshelvingReport = reportingRepository.getReshelvingReport(date);
         System.out.println("\n\n==== Reshelving Report for " + date + " ====");
         reshelvingReport.forEach(stock -> {
@@ -64,7 +64,7 @@ public class ReportingManagerImpl implements ReportingManager {
 
     @Override
     public void generateReorderLevelReport(LocalDate date) {
-        // Use the passed date for the report
+        // using the passed date for the report
         List<Stock> reorderReport = reportingRepository.getReorderLevelReport(date);
         System.out.println("\n\n==== Reorder Level Report for " + date + " ====");
         reorderReport.forEach(stock -> {
@@ -77,7 +77,7 @@ public class ReportingManagerImpl implements ReportingManager {
 
     @Override
     public void generateStockReport(LocalDate date) {
-        // Use the passed date for the report
+        // using the passed date for the report
         List<Stock> stockReport = reportingRepository.getStockReport(date);
         System.out.println("\n\n==== Stock Report for " + date + " ====");
         stockReport.forEach(stock -> {
@@ -104,7 +104,7 @@ public class ReportingManagerImpl implements ReportingManager {
         System.out.println("\nTotal Bills: " + totalBills);
         System.out.println("Total Revenue: " + totalRevenue);
 
-        // Average transaction value
+        // calculate average transaction value
         BigDecimal avgTransactionValue = totalRevenue.divide(BigDecimal.valueOf(totalBills), BigDecimal.ROUND_HALF_UP);
         System.out.println("Average Transaction Value: " + avgTransactionValue);
     }

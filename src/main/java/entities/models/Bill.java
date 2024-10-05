@@ -17,11 +17,9 @@ public class Bill {
     private String paymentType;
     private BigDecimal paymentAmount;
     private double discountRate;
-
-    // This is the missing part, a collection of transactions
     private List<Transaction> transactions;
 
-    // Constructors
+
     public Bill() {
     }
 
@@ -36,7 +34,7 @@ public class Bill {
         this.customer = customer;
     }
 
-    // Getters and Setters
+
     public int getBillId() {
         return billId;
     }

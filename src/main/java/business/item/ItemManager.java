@@ -8,5 +8,5 @@ public interface ItemManager {
     Item findByCode(String itemCode);
     void updateItem(Item item);
     void removeItem(String itemCode);
-    List<Item> getAllItems();  // New method to get all items
+    List<Item> getAllItems();
 }

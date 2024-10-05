@@ -24,15 +24,15 @@ public class UpdateItemHappyTest {
 
     @Test
     public void testUpdateItem() {
-        // Given
+
         Item item = new Item("IT001", "Test Item", BigDecimal.valueOf(100.00));
         System.out.println("Test: Attempting to update item with code IT001.");
 
-        // When
+
         itemManager.updateItem(item);
         System.out.println("Action: Update operation executed.");
 
-        // Then
+
         verify(itemRepository, times(1)).update(item);
         System.out.println("Verification: Item was successfully updated in the repository.");
     }

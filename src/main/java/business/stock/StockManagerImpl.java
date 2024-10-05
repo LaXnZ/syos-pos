@@ -42,7 +42,6 @@ public class StockManagerImpl implements StockManager {
 
     @Override
     public List<Stock> reshelveStock() {
-        // Find all stock and reshelve items that are near expiration or running low
         List<Stock> allStocks = stockRepository.findAll();
         return allStocks.stream()
                 .filter(stock -> stock.getExpiryDate().isBefore(LocalDate.now().plusDays(7)) || stock.getReshelfQuantity() < stock.getShelfCapacity())

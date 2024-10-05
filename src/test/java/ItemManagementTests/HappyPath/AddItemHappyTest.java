@@ -24,15 +24,15 @@ public class AddItemHappyTest {
 
     @Test
     public void testAddItem() {
-        // Given
+
         Item item = new Item("IT001", "Test Item", BigDecimal.valueOf(100.00));
         System.out.println("Test: Adding item with code IT001 and price 100.00");
 
-        // When
+
         itemManager.addItem(item);
         System.out.println("Action: Attempted to add the item.");
 
-        // Then
+
         verify(itemRepository, times(1)).save(item);
         System.out.println("Verification: Item was successfully added and saved to the repository.");
     }

@@ -26,7 +26,7 @@ public class UpdateStockSadTest {
     public void testUpdateStockSadPath() {
         Stock stock = new Stock("B001", "I001", 50, LocalDate.now().minusDays(10), LocalDate.now().plusDays(30), 20, 100, "Shelf1");
 
-        // Simulate an exception
+
         doThrow(new RuntimeException("Database update failed")).when(stockRepository).update(stock);
 
         try {

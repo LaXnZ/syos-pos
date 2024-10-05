@@ -14,10 +14,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class DBConnectionHappyTest {
 
-    private DBConnection dbConnection;  // Add this variable to store the DBConnection instance
-    private Connection connection;  // Add this variable to store the actual connection
+    private DBConnection dbConnection;
+    private Connection connection;
 
-    // Load properties from application.properties
+
     private static Properties loadProperties() {
         Properties properties = new Properties();
         try (InputStream input = DBConnection.class.getClassLoader().getResourceAsStream("test.properties")) {
@@ -25,7 +25,7 @@ public class DBConnectionHappyTest {
                 System.out.println("Sorry, unable to find application.properties");
                 return null;
             }
-            // Load properties file
+
             properties.load(input);
         } catch (Exception e) {
             System.out.println("Error loading application properties: " + e.getMessage());
@@ -34,7 +34,7 @@ public class DBConnectionHappyTest {
         return properties;
     }
 
-    // Static method to get a connection to the database
+
     public static Connection getConnection() {
         Connection connection = null;
         Properties properties = loadProperties();
@@ -56,7 +56,7 @@ public class DBConnectionHappyTest {
 
     @BeforeEach
     public void setUp() {
-        // Set up DB connection before each test
+
         dbConnection = new DBConnection();
         connection = dbConnection.getConnection();
         assertNotNull(connection, "Connection should not be null when DB is accessible");
@@ -64,15 +64,15 @@ public class DBConnectionHappyTest {
 
     @AfterEach
     public void tearDown() {
-        // Close the DB connection after each test
+
         dbConnection.closeConnection();
     }
 
-    // ====== Happy Path Tests ======
+
 
     @Test
     public void testConnectionSuccess() {
-        // Test successful connection to the database
+
         Connection connection = dbConnection.getConnection();
         assertNotNull(connection, "Connection should not be null when DB is accessible");
         System.out.println("Database connection successful in the happy path test.");
@@ -80,7 +80,7 @@ public class DBConnectionHappyTest {
 
     @Test
     public void testCloseConnection() throws SQLException {
-        // Ensure connection closes without errors
+
         dbConnection.closeConnection();
         assertTrue(connection.isClosed(), "Connection should be closed successfully");
         System.out.println("Connection closed successfully.");
@@ -99,11 +99,11 @@ public class DBConnectionHappyTest {
 
     @Test
     public void testDoubleCloseConnection() throws SQLException {
-        // Close the connection once
+
         dbConnection.closeConnection();
 
-        // Try closing it again to check if no exception occurs on repeated close
-        dbConnection.closeConnection(); // Second call
+
+        dbConnection.closeConnection();
         System.out.println("Double connection close test passed.");
     }
 }

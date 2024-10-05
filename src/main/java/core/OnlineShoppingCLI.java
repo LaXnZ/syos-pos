@@ -21,7 +21,7 @@ public class OnlineShoppingCLI {
         System.out.println("3. Back to Main Menu");
         System.out.print("Choose an option: ");
         int option = scanner.nextInt();
-        scanner.nextLine();  // Consume newline
+        scanner.nextLine();
 
         switch (option) {
             case 1:
@@ -72,7 +72,7 @@ public class OnlineShoppingCLI {
 
     private static void onlineShoppingProcess(Customer customer, ItemManager itemManager,
                                               BillingManager billingManager, Scanner scanner) {
-        // Create a bill for this customer
+        // create the bill for the customer
         Bill bill = billingManager.createBill(customer);
 
         boolean shopping = true;
@@ -83,7 +83,7 @@ public class OnlineShoppingCLI {
             System.out.println("3. Back to main menu");
             System.out.print("Choose an option: ");
             int option = scanner.nextInt();
-            scanner.nextLine();  // Consume newline
+            scanner.nextLine();
 
             switch (option) {
                 case 1:
@@ -95,8 +95,8 @@ public class OnlineShoppingCLI {
                     } else {
                         System.out.print("Enter quantity: ");
                         int quantity = scanner.nextInt();
-                        scanner.nextLine();  // Consume newline
-                        billingManager.addItemToBill(bill, item, quantity);  // Add item to the bill
+                        scanner.nextLine();
+                        billingManager.addItemToBill(bill, item, quantity);
                         System.out.println("\nItem added to your cart.");
                     }
                     break;
@@ -117,18 +117,18 @@ public class OnlineShoppingCLI {
     private static void checkoutProcess(Customer customer, Bill bill, BillingManager billingManager, Scanner scanner) {
         System.out.println("\nTotal Price: " + bill.getTotalPrice());
 
-        // Apply loyalty points if customer wants to use them
+        // apply loyalty points as discount if available
         if (customer.getLoyaltyPoints() > 0) {
             System.out.println("\nLoyalty Points: " + customer.getLoyaltyPoints());
             System.out.print("Would you like to use loyalty points? (y/n): ");
             String useLoyalty = scanner.nextLine();
 
             if (useLoyalty.equalsIgnoreCase("y")) {
-                // Apply loyalty points as discount (1 loyalty point = 1 rupee)
+
                 BigDecimal loyaltyDiscount = BigDecimal.valueOf(customer.getLoyaltyPoints());
                 bill.setDiscountAmount(bill.getDiscountAmount().add(loyaltyDiscount));
 
-                // Ensure the discount doesn't exceed the total price
+                // ensure discount does not exceed total price
                 if (bill.getDiscountAmount().compareTo(bill.getTotalPrice()) > 0) {
                     bill.setDiscountAmount(bill.getTotalPrice());
                 }
@@ -137,7 +137,7 @@ public class OnlineShoppingCLI {
                 bill.setFinalPrice(finalPrice);
                 System.out.println("Discount applied to the bill.");
 
-                // Update customer's loyalty points after applying
+                // update customer loyalty points
                 customer.setLoyaltyPoints(0);
                 System.out.println("Loyalty points applied as discount.");
             } else {
@@ -147,7 +147,7 @@ public class OnlineShoppingCLI {
             bill.setFinalPrice(bill.getTotalPrice());
         }
 
-        // Online payment options
+
         System.out.println("\nSelect payment method:");
         System.out.println("1. Card Payment");
         System.out.println("2. Cash on Delivery");
@@ -156,11 +156,11 @@ public class OnlineShoppingCLI {
         scanner.nextLine(); // Consume newline
 
         if (paymentOption == 1) {
-            // Simulate card payment success
+
             System.out.println("\nPurchase successful!");
             billingManager.finalizeBill(bill, bill.getFinalPrice().doubleValue(), true);  // Finalize the bill with online flag
         } else if (paymentOption == 2) {
-            // Handle Cash on Delivery
+
             System.out.print("\nEnter delivery address: ");
             String address = scanner.nextLine();
 
@@ -172,7 +172,7 @@ public class OnlineShoppingCLI {
             return;
         }
 
-        // Final Bill Display
+
         displayFinalBill(bill);
     }
 
@@ -186,7 +186,7 @@ public class OnlineShoppingCLI {
 
         System.out.println("\nItems Purchased:");
 
-        // Add your logic to display item details here
+
 
         System.out.println("\n\nTotal Price: " + bill.getTotalPrice());
         System.out.println("Discount: " + bill.getDiscountAmount());

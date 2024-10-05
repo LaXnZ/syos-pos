@@ -20,14 +20,14 @@ public class MainApplication {
     public static void main(String[] args) {
         System.out.println("Welcome to SYOS System");
 
-        // Initialize the database connection
+        // initialize the database connection
         DBConnection dbConnectionManager = new DBConnection();
 
-        // Initialize the application
+        // initialize the application (database check and creation)
         AppInitializer.initializeApp();
 
         try (Connection connection = dbConnectionManager.getConnection()) {
-            // Initialize Repositories
+            // initialize the repositories
             CustomerRepositoryImpl customerRepository = new CustomerRepositoryImpl(connection);
             ItemRepositoryImpl itemRepository = new ItemRepositoryImpl(connection);
             TransactionRepositoryImpl transactionRepository = new TransactionRepositoryImpl(connection);
@@ -37,7 +37,7 @@ public class MainApplication {
             ShelfRepositoryImpl shelfRepository = new ShelfRepositoryImpl(connection);
             StoreInventoryRepositoryImpl storeInventoryRepository = new StoreInventoryRepositoryImpl(connection);
 
-            // Initialize Managers
+            // initialize the managers
             BillingManager billingManager = new BillingManagerImpl(billRepository, customerRepository, transactionRepository, itemRepository, shelfRepository, storeInventoryRepository);
             CustomerManager customerManager = new CustomerManagerImpl(customerRepository);
             ItemManager itemManager = new ItemManagerImpl(itemRepository);
@@ -58,11 +58,11 @@ public class MainApplication {
 
                 switch (option) {
                     case 1:
-                        // Redirect to In-Store POS System
+                        // select in-store POS system
                         InStorePOSSystem.startInStoreSystem(billingManager, customerManager, itemManager, stockManager, reportingManager, scanner);
                         break;
                     case 2:
-                        // Redirect to Online Store
+                        // select online shopping system
                         OnlineShoppingCLI.handleOnlineShopping(customerManager, itemManager, billingManager, scanner);
                         break;
                     case 3:

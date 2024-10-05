@@ -13,7 +13,7 @@ public class StockManagementCLI {
     public static void handleStockManagement(StockManager stockManager, Scanner scanner) {
         boolean running = true;
 
-        // Menu-driven approach for Stock Management
+
         while (running) {
             System.out.println("\n==== Stock Management ====");
             System.out.println("1. Add Stock");
@@ -24,11 +24,11 @@ public class StockManagementCLI {
             System.out.println("6. Back to Main Menu");
             System.out.print("Choose an option: ");
             int option = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+            scanner.nextLine();
 
             switch (option) {
                 case 1:
-                    // Add Stock
+                    // add a new stock
                     try {
                         System.out.println("Enter batch code:");
                         String batchCode = scanner.nextLine();
@@ -38,11 +38,11 @@ public class StockManagementCLI {
 
                         System.out.println("Enter quantity in stock:");
                         int quantity = scanner.nextInt();
-                        scanner.nextLine(); // Consume newline
+                        scanner.nextLine();
 
                         System.out.println("Enter shelf capacity (for reshelving):");
                         int shelfCapacity = scanner.nextInt();
-                        scanner.nextLine(); // Consume newline
+                        scanner.nextLine();
 
                         System.out.println("Enter date of purchase (YYYY-MM-DD):");
                         String purchaseDateStr = scanner.nextLine();
@@ -52,7 +52,7 @@ public class StockManagementCLI {
                         String expiryDateStr = scanner.nextLine();
                         LocalDate expiryDate = LocalDate.parse(expiryDateStr);
 
-                        // New missing argument (example: stockLocation)
+
                         System.out.println("Enter stock location:");
                         String stockLocation = scanner.nextLine();
 
@@ -69,7 +69,7 @@ public class StockManagementCLI {
                     break;
 
                 case 2:
-                    // View All Stock
+                    // view all stock
                     List<Stock> allStock = stockManager.findAll();
                     if (allStock.isEmpty()) {
                         System.out.println("No stock available.");
@@ -79,7 +79,7 @@ public class StockManagementCLI {
                     break;
 
                 case 3:
-                    // Update Stock
+                    // update stock
                     System.out.println("Enter batch code to update:");
                     String updateBatchCode = scanner.nextLine();
                     Stock stockToUpdate = stockManager.findByBatchCode(updateBatchCode);
@@ -119,7 +119,7 @@ public class StockManagementCLI {
                     break;
 
                 case 4:
-                    // Remove Stock
+                    // remove stock
                     System.out.println("Enter batch code to remove:");
                     String removeBatchCode = scanner.nextLine();
                     stockManager.removeStock(removeBatchCode);
@@ -127,7 +127,7 @@ public class StockManagementCLI {
                     break;
 
                 case 5:
-                    // Reshelve Stock (Prioritize FIFO based on expiry dates)
+                    // reshelve stock (prioritize FIFO)
                     List<Stock> stockToReshelve = stockManager.reshelveStock();
                     if (stockToReshelve.isEmpty()) {
                         System.out.println("No stock to reshelve.");
@@ -138,7 +138,7 @@ public class StockManagementCLI {
                     break;
 
                 case 6:
-                    // Back to Main Menu
+                    // main menu
                     running = false;
                     break;
 

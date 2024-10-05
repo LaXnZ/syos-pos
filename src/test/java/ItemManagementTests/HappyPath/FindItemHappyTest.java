@@ -25,17 +25,17 @@ public class FindItemHappyTest {
 
     @Test
     public void testFindItemByCode() {
-        // Given
+
         String itemCode = "IT001";
         Item mockItem = new Item(itemCode, "Test Item", BigDecimal.valueOf(100.00));
         when(itemRepository.findByCode(itemCode)).thenReturn(mockItem);
         System.out.println("Test: Attempting to find an item with code IT001.");
 
-        // When
+
         Item foundItem = itemManager.findByCode(itemCode);
         System.out.println("Action: Item search executed.");
 
-        // Then
+
         assertNotNull(foundItem, "Item should not be null.");
         assertEquals(itemCode, foundItem.getItemCode(), "Item code should match.");
         verify(itemRepository, times(1)).findByCode(itemCode);

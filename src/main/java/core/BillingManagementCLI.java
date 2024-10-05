@@ -21,7 +21,7 @@ public class BillingManagementCLI {
         System.out.println("Enter customer number:");
         String customerNumber = scanner.nextLine();
 
-        // Find or add customer
+        // find customer by phone number or add new customer
         Customer customer = customerManager.findCustomerByPhoneNumber(customerNumber);
         if (customer == null) {
             System.out.println("Customer not found. Adding new customer...");
@@ -29,7 +29,7 @@ public class BillingManagementCLI {
             customer = customerManager.findCustomerByPhoneNumber(customerNumber);
         }
 
-        // Create a new bill for the customer
+        // create a new bill for the customer
         Bill bill = billingManager.createBill(customer);
 
         boolean addingItems = true;
@@ -60,17 +60,17 @@ public class BillingManagementCLI {
             addingItems = scanner.nextLine().equalsIgnoreCase("y");
         }
 
-        // Calculate the tax amount (assume 10% tax)
+        // calculate the tax amount
         BigDecimal taxAmount = bill.getTotalPrice().multiply(BigDecimal.valueOf(0.02));
         bill.setTaxAmount(taxAmount);
 
-        // Display total price including tax
+        // display the total price and tax amount
         System.out.println("\nTotal Price: " + bill.getTotalPrice());
         System.out.println("Tax Amount: " + taxAmount);
         BigDecimal finalPrice = bill.getTotalPrice().add(taxAmount);
         bill.setFinalPrice(finalPrice);
 
-        // Handle loyalty points
+        // apply loyalty points
         System.out.println("Loyalty Points: " + customer.getLoyaltyPoints());
         boolean loyaltyPointsApplied = false;
         System.out.println("Would you like to use loyalty points? (y/n):");
@@ -89,23 +89,23 @@ public class BillingManagementCLI {
             System.out.println("No loyalty points applied.");
         }
 
-        // Display the final price after applying loyalty points
+        // display final price after discount, tax, and loyalty points
         System.out.println("Final Price after Discount and Tax: " + bill.getFinalPrice());
 
-        // Get cash tendered
+        // get cash tendered
         System.out.println("Enter cash tendered:");
         double cashTendered = scanner.nextDouble();
         scanner.nextLine();  // Consume newline
 
-        // Finalize the bill and display the change
+        // finalize the bill
         billingManager.finalizeBill(bill, cashTendered, loyaltyPointsApplied);
 
-        // Retrieve and display all transactions
+        // display all transactions
         List<Transaction> transactions = billingManager.getTransactionsByBillId(bill.getBillId());
         String formattedBill = BillFormatter.formatBill(bill, customer, transactions);
         System.out.println(formattedBill);
 
-        // Add new loyalty points (5% of the final price)
+        // add new loyalty points (5% of the final price)
         BigDecimal newLoyaltyPoints = bill.getFinalPrice().multiply(BigDecimal.valueOf(0.05));
         customer.setLoyaltyPoints(customer.getLoyaltyPoints() + newLoyaltyPoints.intValue());
         customerManager.updateCustomer(customer);

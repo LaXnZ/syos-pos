@@ -1,6 +1,6 @@
 package entities.models;
 
-import java.math.BigDecimal;
+
 import java.time.LocalDate;
 
 public class StoreInventory {
@@ -10,7 +10,7 @@ public class StoreInventory {
     private LocalDate dateOfPurchase;
     private LocalDate expiryDate;
 
-    // Constructors, getters, setters
+
     public StoreInventory(String itemCode, int quantityInStock, LocalDate dateOfPurchase, LocalDate expiryDate) {
         this.itemCode = itemCode;
         this.quantityInStock = quantityInStock;

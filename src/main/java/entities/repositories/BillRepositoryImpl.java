@@ -49,10 +49,10 @@ public class BillRepositoryImpl implements BillRepository {
                 }
             }
 
-            // Update customer details after bill
+            // update customer details after bill
             updateCustomerDetailsAfterBill(bill.getCustomer(), bill.getTotalPrice());
 
-            // Update customer transaction history
+            // update customer transaction history
             updateCustomerTransactionHistory(bill.getCustomer(), bill.getTotalPrice());
 
 
@@ -110,7 +110,7 @@ public class BillRepositoryImpl implements BillRepository {
         }
     }
 
-    // Update or insert into CustomerTransactionHistory
+    // update or insert customer transaction history
     private void updateCustomerTransactionHistory(Customer customer, BigDecimal totalSpent) {
         String findHistorySql = "SELECT * FROM customertransactionhistory WHERE customer_id = ?";
         String insertHistorySql = "INSERT INTO customertransactionhistory (customer_id, total_purchases, total_spent, avg_spent_per_purchase, purchase_frequency, last_purchase_date, data_as_of) " +
@@ -123,7 +123,7 @@ public class BillRepositoryImpl implements BillRepository {
             ResultSet resultSet = findStatement.executeQuery();
 
             if (resultSet.next()) {
-                // Update existing record
+                // update existing record
                 int totalPurchases = resultSet.getInt("total_purchases") + 1;
                 BigDecimal totalSpentInHistory = resultSet.getBigDecimal("total_spent").add(totalSpent);
                 BigDecimal avgSpent = totalSpentInHistory.divide(BigDecimal.valueOf(totalPurchases), BigDecimal.ROUND_HALF_UP);
@@ -142,7 +142,7 @@ public class BillRepositoryImpl implements BillRepository {
                     System.out.println("Customer transaction history updated successfully!");
                 }
             } else {
-                // Insert new record
+                // insert new record
                 try (PreparedStatement insertStatement = connection.prepareStatement(insertHistorySql)) {
                     insertStatement.setInt(1, customer.getCustomerId());
                     insertStatement.setInt(2, 1);  // First purchase
@@ -163,25 +163,9 @@ public class BillRepositoryImpl implements BillRepository {
     }
 
 
-    // Method to apply loyalty points as discount
-    public void applyLoyaltyPointsDiscount(Bill bill, Customer customer) {
-        int loyaltyPoints = customer.getLoyaltyPoints();
-        BigDecimal discount = BigDecimal.valueOf(loyaltyPoints);
 
-        if (bill.getTotalPrice().compareTo(discount) >= 0) {
-            bill.setDiscountAmount(bill.getDiscountAmount().add(discount));
-            bill.setFinalPrice(bill.getTotalPrice().subtract(discount));
-            customer.setLoyaltyPoints(0);
 
-            System.out.println("Loyalty points applied as discount successfully!");
-        } else {
-            System.out.println("Loyalty points exceed total bill amount, cannot apply.");
-        }
-
-        save(bill);  // Update the bill with discount and final price
-    }
-
-    // Method to calculate change after cash tendered
+    // calculate the final bill and save it
     public void finalizeBill(Bill bill, double cashTendered) {
         bill.setCashTendered(BigDecimal.valueOf(cashTendered));
         BigDecimal changeAmount = bill.getCashTendered().subtract(bill.getFinalPrice());

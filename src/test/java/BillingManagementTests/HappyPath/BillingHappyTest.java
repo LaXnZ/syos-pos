@@ -45,18 +45,18 @@ public class BillingHappyTest {
 
     @Test
     public void testAddItemToBill() {
-        // Arrange
+        // data setup
         Customer customer = new Customer("John Doe", "0712345678", "john.doe@example.com", LocalDate.now());
         Bill bill = new Bill(LocalDate.now(), BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, customer);
         Item item = new Item("TM005", "Taco Night Kit", BigDecimal.valueOf(200));
 
-        // Mock the itemRepository to return the item when searched by code
+        // mock behavior
         Mockito.when(itemRepository.findByCode("TM005")).thenReturn(item);
 
-        // Act
+        // action
         billingManager.addItemToBill(bill, item, 2);
 
-        // Assert
+        // assertion
         assertEquals(BigDecimal.valueOf(400), bill.getTotalPrice()); // 200 * 2
         Mockito.verify(billRepository, Mockito.times(1)).save(bill);
         Mockito.verify(transactionRepository, Mockito.times(1)).save(any(Transaction.class));

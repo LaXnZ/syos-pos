@@ -24,7 +24,7 @@ public class InStorePOSSystem {
             System.out.println("6. Exit");
             System.out.print("Choose an option: ");
             int option = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+            scanner.nextLine();
 
             switch (option) {
                 case 1:

@@ -24,13 +24,13 @@ public class UpdateStockHappyTest {
 
     @Test
     public void testUpdateStockHappyPath() {
-        // Create mock stock
+
         Stock stock = new Stock("B001", "I001", 50, LocalDate.now().minusDays(10), LocalDate.now().plusDays(30), 20, 100, "Shelf1");
 
-        // Execute the method
+
         stockManager.updateStock(stock);
 
-        // Verify that the repository update was called
+
         verify(stockRepository).update(stock);
 
         System.out.println("UpdateStockHappyTest passed!");

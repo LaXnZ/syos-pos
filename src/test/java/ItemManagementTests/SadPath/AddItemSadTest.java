@@ -24,17 +24,17 @@ public class AddItemSadTest {
 
     @Test
     public void testAddItemFailsForExistingCode() {
-        // Given
+
         Item existingItem = new Item("IT001", "Existing Item", BigDecimal.valueOf(200.00));
         when(itemRepository.findByCode("IT001")).thenReturn(existingItem);
         System.out.println("Test: Attempting to add an item with an existing code IT001.");
 
-        // When
+
         Item newItem = new Item("IT001", "Test Item", BigDecimal.valueOf(100.00));
         itemManager.addItem(newItem);
         System.out.println("Action: Item addition failed due to existing code.");
 
-        // Then
+
         verify(itemRepository, never()).save(newItem);
         System.out.println("Verification: Item was not saved as expected because the code already exists.");
     }

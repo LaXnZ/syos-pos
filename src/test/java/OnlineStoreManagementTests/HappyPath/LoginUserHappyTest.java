@@ -30,28 +30,23 @@ public class LoginUserHappyTest {
 
     @Test
     public void testSuccessfulLogin() {
-        // Set up mock customer
+        // set up a valid customer
         Customer customer = new Customer("John Doe", "0711234567", "john.doe@example.com", 0, BigDecimal.ZERO, LocalDate.now());
 
-        // Simulate user input for the login process and following menu interactions
-        // The input is:
-        // 1 -> Select login option
-        // john.doe@example.com -> Enter email
-        // 2 -> Select "Checkout" from the menu
+
         String input = "1\njohn.doe@example.com\n2\n";  // Simulating login and then choosing "Checkout"
         ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
         Scanner scanner = new Scanner(in);
 
-        // Mock the customerManager behavior to return a valid customer
+        // mock behavior for customer management
         when(customerManager.findCustomerByEmail("john.doe@example.com")).thenReturn(customer);
 
-        // Call the method to handle user login
+
         OnlineShoppingCLI.handleOnlineShopping(customerManager, itemManager, billingManager, scanner);
 
-        // Verify that the customer was successfully logged in
         verify(customerManager).findCustomerByEmail("john.doe@example.com");
 
-        // Print success message for testing purposes
+
         System.out.println("Successfully logged in with: " + customer.getName());
     }
 }

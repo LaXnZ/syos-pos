@@ -20,7 +20,7 @@ public class UpdateCustomerHappyTest {
 
         customerManager.updateCustomer(existingCustomer);
 
-        // Verify if update() was called once
+
         Mockito.verify(mockRepo, Mockito.times(1)).update(existingCustomer);
     }
 }

@@ -8,11 +8,11 @@ public class AppInitializer {
     public static void initializeApp() {
         System.out.println("Initializing the SYOS POS application...");
 
-        // Create an instance of DBConnection and DBInitializer
+        // create a new instance of the DBConnection class
         DBConnection dbConnectionManager = new DBConnection();
         DBInitializer dbInitializer = new DBInitializer(dbConnectionManager);
 
-        // Call the instance method to initialize the database
+        // call the initializeDatabase method of the DBInitializer class
         dbInitializer.initializeDatabase();
 
         System.out.println("Application initialization complete.");

@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class CustomerManagementCLI {
 
-    // Method to add a customer with proper validation
+    // add a new customer
     public static void addCustomer(CustomerManager customerManager, Scanner scanner) {
         System.out.println("Enter customer name:");
         String customerName = scanner.nextLine();
@@ -27,7 +27,7 @@ public class CustomerManagementCLI {
         System.out.println("Enter email:");
         String email = scanner.nextLine();
 
-        // Create new customer and save to the database
+        // create the customer object and add it to the repository
         Customer newCustomer = new Customer(customerName, phoneNumber, email, LocalDate.now());
         customerManager.addCustomer(newCustomer);
         System.out.println("Customer added successfully!");
@@ -36,7 +36,7 @@ public class CustomerManagementCLI {
     public static void handleCustomerManagement(CustomerManager customerManager, Scanner scanner) {
         boolean running = true;
 
-        // Menu-driven approach for Customer Management
+
         while (running) {
             System.out.println("\n==== Customer Management ====");
             System.out.println("1. Add Customer");
@@ -55,7 +55,7 @@ public class CustomerManagementCLI {
                     break;
 
                 case 2:
-                    // Find Customer by ID
+                    // find customer by ID
                     System.out.println("Enter customer ID:");
                     int customerId = scanner.nextInt();
                     Customer foundCustomer = customerManager.findCustomerById(customerId);
@@ -68,7 +68,7 @@ public class CustomerManagementCLI {
                     break;
 
                 case 3:
-                    // Update Customer
+                    // update customer details
                     System.out.println("Enter customer ID to update:");
                     int updateCustomerId = scanner.nextInt();
                     scanner.nextLine();  // Consume newline
@@ -103,7 +103,7 @@ public class CustomerManagementCLI {
                     break;
 
                 case 4:
-                    // Remove Customer
+                    // remove customer
                     System.out.println("Enter customer ID to remove:");
                     int removeCustomerId = scanner.nextInt();
                     customerManager.removeCustomer(removeCustomerId);
@@ -111,13 +111,13 @@ public class CustomerManagementCLI {
                     break;
 
                 case 5:
-                    // View All Customers
+                    // view all customers
                     System.out.println("\n==== All Customers ====");
                     customerManager.findAllCustomers().forEach(System.out::println);  // Uses overridden toString() in Customer class
                     break;
 
                 case 6:
-                    // Back to Main Menu
+                    // main menu
                     running = false;
                     break;
 

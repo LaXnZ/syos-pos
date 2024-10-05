@@ -23,10 +23,10 @@ public class RemoveStockHappyTest {
     public void testRemoveStockHappyPath() {
         String batchCode = "B001";
 
-        // Execute the method
+
         stockManager.removeStock(batchCode);
 
-        // Verify that the repository delete was called
+
         verify(stockRepository).delete(batchCode);
 
         System.out.println("RemoveStockHappyTest passed!");

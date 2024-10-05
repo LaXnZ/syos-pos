@@ -26,18 +26,18 @@ public class ReshelveStockHappyTest {
 
     @Test
     public void testReshelveStockHappyPath() {
-        // Prepare mock data
+
         Stock stock1 = new Stock("B001", "I001", 50, LocalDate.now().minusDays(10), LocalDate.now().plusDays(5), 10, 100, "Shelf1");
         Stock stock2 = new Stock("B002", "I002", 20, LocalDate.now().minusDays(5), LocalDate.now().plusDays(10), 30, 50, "Shelf2");
         List<Stock> mockStocks = Arrays.asList(stock1, stock2);
 
-        // Mock repository behavior
+
         Mockito.when(stockRepository.findAll()).thenReturn(mockStocks);
 
-        // Execute the method
+
         List<Stock> result = stockManager.reshelveStock();
 
-        // Verify the results
+
         assertEquals(2, result.size());
         assertEquals(stock1.getBatchCode(), result.get(0).getBatchCode());
 

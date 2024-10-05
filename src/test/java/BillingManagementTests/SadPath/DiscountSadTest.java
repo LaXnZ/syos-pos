@@ -27,30 +27,30 @@ public class DiscountSadTest {
 
     @Test
     public void testApplyInvalidDiscount() {
-        // Arrange
+        // arrange
         Customer customer = new Customer("Invalid Discount", "0723456789", "invalid.discount@example.com", LocalDate.now());
         Bill bill = new Bill(LocalDate.now(), BigDecimal.valueOf(1000), BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, customer);
 
-        // Act
-        billingManager.applyDiscount(bill, -10); // Invalid negative discount
+        // action
+        billingManager.applyDiscount(bill, -10);
 
-        // Assert
-        assertEquals(BigDecimal.ZERO, bill.getDiscountAmount()); // No discount should be applied
-        assertEquals(BigDecimal.valueOf(1000), bill.getTotalPrice()); // Total price should remain the same
-        assertEquals(BigDecimal.valueOf(1000), bill.getFinalPrice()); // Final price should be unchanged
-        Mockito.verify(billRepository, times(1)).save(bill); // Ensure that the bill is still saved once
+        // assertions
+        assertEquals(BigDecimal.ZERO, bill.getDiscountAmount());
+        assertEquals(BigDecimal.valueOf(1000), bill.getTotalPrice());
+        assertEquals(BigDecimal.valueOf(1000), bill.getFinalPrice());
+        Mockito.verify(billRepository, times(1)).save(bill);
     }
 
     @Test
     public void testApplyExcessiveDiscount() {
-        // Arrange
+        // arrange
         Customer customer = new Customer("Excessive Discount", "0723456789", "excessive.discount@example.com", LocalDate.now());
         Bill bill = new Bill(LocalDate.now(), BigDecimal.valueOf(1000), BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, customer);
 
-        // Act
+        // action
         billingManager.applyDiscount(bill, 1.5); // Excessive 150% discount
 
-        // Assert
+        // assertions
         assertEquals(BigDecimal.valueOf(1000), bill.getTotalPrice()); // Total price stays the same
         assertEquals(BigDecimal.ZERO, bill.getDiscountAmount()); // Discount should not exceed the total price
         assertEquals(BigDecimal.valueOf(1000), bill.getFinalPrice()); // Final price should be unchanged

@@ -25,15 +25,15 @@ public class UpdateItemSadTest {
 
     @Test
     public void testUpdateItemFailsForNonExistingCode() {
-        // Given
+
         Item nonExistingItem = new Item("IT002", "Non-existing Item", BigDecimal.valueOf(100.00));
         LOGGER.info("Attempting to update non-existent item with code: " + nonExistingItem.getItemCode());
         when(itemRepository.findByCode("IT002")).thenReturn(null);
 
-        // When
+
         itemManager.updateItem(nonExistingItem);
 
-        // Then
+
         verify(itemRepository, never()).update(nonExistingItem);  // The item should not be updated
         LOGGER.info("Verified that no update occurred for non-existent item code: " + nonExistingItem.getItemCode());
     }

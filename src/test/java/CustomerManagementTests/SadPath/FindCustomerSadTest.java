@@ -14,12 +14,12 @@ public class FindCustomerSadTest {
         CustomerRepository mockRepo = Mockito.mock(CustomerRepository.class);
         CustomerManagerImpl customerManager = new CustomerManagerImpl(mockRepo);
 
-        // Simulate returning null when customer does not exist
+
         Mockito.when(mockRepo.findById(99)).thenReturn(null);
 
         assertNull(customerManager.findCustomerById(99));
 
-        // Verify findById was called once
+
         Mockito.verify(mockRepo, Mockito.times(1)).findById(99);
     }
 }

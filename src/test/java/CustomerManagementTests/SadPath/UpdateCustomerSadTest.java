@@ -18,7 +18,7 @@ public class UpdateCustomerSadTest {
         Customer nonExistentCustomer = new Customer("John Doe", "0123456789", "john@example.com", LocalDate.now());
         nonExistentCustomer.setCustomerId(99);
 
-        // Simulate failure in update
+
         Mockito.doThrow(new IllegalArgumentException("Customer does not exist"))
                 .when(mockRepo).update(Mockito.any(Customer.class));
 
@@ -28,7 +28,7 @@ public class UpdateCustomerSadTest {
             System.out.println("Caught expected exception: " + e.getMessage());
         }
 
-        // Verify that update() was called once
+
         Mockito.verify(mockRepo, Mockito.times(1)).update(nonExistentCustomer);
     }
 }

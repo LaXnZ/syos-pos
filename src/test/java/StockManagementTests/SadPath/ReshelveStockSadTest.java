@@ -23,13 +23,13 @@ public class ReshelveStockSadTest {
 
     @Test
     public void testReshelveStockSadPath_NoStockAvailable() {
-        // Mock empty stock list
+
         Mockito.when(stockRepository.findAll()).thenReturn(Collections.emptyList());
 
-        // Execute the method
+
         var result = stockManager.reshelveStock();
 
-        // Verify that no stocks are available for reshelving
+
         assertTrue(result.isEmpty());
 
         System.out.println("ReshelveStockSadTest passed!");
