@@ -46,7 +46,13 @@ public class TransactionRepositoryImpl implements TransactionRepository {
 
     @Override
     public List<Transaction> findByBillId(int billId) {
-        String sql = "SELECT * FROM transaction WHERE bill_id = ?";
+        String sql = """
+        SELECT t.transaction_id, t.quantity, t.total_price, t.transaction_date, t.transaction_type, i.item_name
+        FROM transaction t
+        JOIN item i ON t.item_id = i.item_id
+        WHERE t.bill_id = ?
+    """;
+
         List<Transaction> transactions = new ArrayList<>();
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -61,6 +67,10 @@ public class TransactionRepositoryImpl implements TransactionRepository {
                 transaction.setTransactionDate(resultSet.getDate("transaction_date").toLocalDate());
                 transaction.setTransactionType(resultSet.getString("transaction_type"));
 
+                // Create an item object and set the item name
+                Item item = new Item();
+                item.setItemName(resultSet.getString("item_name"));
+                transaction.setItem(item);
 
                 transactions.add(transaction);
             }
@@ -71,4 +81,6 @@ public class TransactionRepositoryImpl implements TransactionRepository {
 
         return transactions;
     }
+
+
 }

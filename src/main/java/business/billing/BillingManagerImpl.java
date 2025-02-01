@@ -85,39 +85,50 @@ public class BillingManagerImpl implements BillingManager {
 
     @Override
     public void finalizeBill(Bill bill, double cashTendered, boolean useLoyaltyPoints) {
-        // 1 - calculate tax amount
-        BigDecimal taxAmount = BigDecimal.valueOf(taxCalculator.calculateTax(bill.getTotalPrice().doubleValue()));
+        // 1 - Calculate the discount
+        BigDecimal discountAmount = bill.getTotalPrice().multiply(BigDecimal.valueOf(bill.getDiscountRate() / 100));
+        bill.setDiscountAmount(discountAmount);
+
+        // 2 - Calculate the total after discount
+        BigDecimal totalAfterDiscount = bill.getTotalPrice().subtract(discountAmount);
+
+        // 3 - Calculate tax on the discounted total
+        BigDecimal taxAmount = BigDecimal.valueOf(taxCalculator.calculateTax(totalAfterDiscount.doubleValue()));
         bill.setTaxAmount(taxAmount);
 
-        // 2 - calculate final price
-        BigDecimal finalPrice = bill.getTotalPrice().add(taxAmount).subtract(bill.getDiscountAmount());
+        // 4 - Calculate final price
+        BigDecimal finalPrice = totalAfterDiscount.add(taxAmount);
 
-        // 3 - apply loyalty points if available
+        // 5 - Apply loyalty points if applicable
         if (useLoyaltyPoints && bill.getCustomer().getLoyaltyPoints() > 0) {
             BigDecimal loyaltyPointsValue = BigDecimal.valueOf(bill.getCustomer().getLoyaltyPoints());
+            if (loyaltyPointsValue.compareTo(finalPrice) > 0) {
+                loyaltyPointsValue = finalPrice; // Cannot apply more points than the total price
+            }
             finalPrice = finalPrice.subtract(loyaltyPointsValue);
             bill.getCustomer().setLoyaltyPoints(0); // Reset loyalty points
         }
 
-        // 4 - apply payment handler
-        bill.setFinalPrice(finalPrice.compareTo(BigDecimal.ZERO) > 0 ? finalPrice : BigDecimal.ZERO);
+        // 6 - Set the final price
+        bill.setFinalPrice(finalPrice);
 
-        // 5 - process payment
+        // 7 - Calculate change based on cash tendered
         bill.setCashTendered(BigDecimal.valueOf(cashTendered));
-        BigDecimal change = BigDecimal.valueOf(cashTendered).subtract(bill.getFinalPrice());
-        bill.setChangeAmount(change);
+        BigDecimal change = BigDecimal.valueOf(cashTendered).subtract(finalPrice);
+        bill.setChangeAmount(change.compareTo(BigDecimal.ZERO) >= 0 ? change : BigDecimal.ZERO);  // No negative change
 
-        // 6 - update customer loyalty points
-        int loyaltyPointsEarned = bill.getFinalPrice().multiply(BigDecimal.valueOf(0.05)).intValue(); // 5% loyalty points
+        // 8 - Update loyalty points (5% of the final price)
+        int loyaltyPointsEarned = finalPrice.multiply(BigDecimal.valueOf(0.05)).intValue(); // Earn 5% loyalty points
         bill.getCustomer().setLoyaltyPoints(loyaltyPointsEarned);
 
-        // save the updated customer and bill
+        // Save the updated customer and bill
         customerRepository.update(bill.getCustomer());
         billRepository.save(bill);
 
-        // 7 - display the bill
+        // 9 - Display the bill
         displayBill(bill);
     }
+
 
     private void displayBill(Bill bill) {
         List<Transaction> transactions = transactionRepository.findByBillId(bill.getBillId());

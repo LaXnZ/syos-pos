@@ -68,7 +68,7 @@ docker exec -i postgres-db psql -U postgres -d syos_db -f /tmp/outputfile.sql
 
 echo "Database created and populated successfully!"
 
-# Optional: Print container status
+# Print container status
 docker ps
 
 echo "Setup completed!"
